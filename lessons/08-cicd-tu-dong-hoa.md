@@ -529,8 +529,8 @@ Tạo file `.gitlab-ci.yml` trong root của project:
 ```yaml
 variables:
   CURL_IMAGE: curlimages/curl:latest
-  SUCCESS_MSG: '✅ Publish NPM thành công!%0A'
-  FAILURE_MSG: '❌ Publish NPM thất bại!%0A'
+  SUCCESS_MSG: "✅ Publish NPM thành công!%0A"
+  FAILURE_MSG: "❌ Publish NPM thất bại!%0A"
   TELEGRAM_TEXT: |
     📂 Repo: <a href='${CI_PROJECT_URL}'>${CI_PROJECT_URL}</a>%0A
     📦 NPM Package: <a href='https://www.npmjs.com/package/${CI_PROJECT_NAME}'>${CI_PROJECT_NAME}</a>%0A
@@ -541,7 +541,7 @@ workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "main" && ($CI_COMMIT_MESSAGE =~ /release/ || $CI_COMMIT_MESSAGE =~ /Release/ || $CI_COMMIT_MESSAGE =~ /Merge/)
       variables:
-        SHOULD_RELEASE: 'true'
+        SHOULD_RELEASE: "true"
     - when: always
 
 stages:
@@ -606,8 +606,8 @@ notify_failure:
 ```yaml
 variables:
   CURL_IMAGE: curlimages/curl:latest
-  SUCCESS_MSG: '✅ Publish NPM thành công!%0A'
-  FAILURE_MSG: '❌ Publish NPM thất bại!%0A'
+  SUCCESS_MSG: "✅ Publish NPM thành công!%0A"
+  FAILURE_MSG: "❌ Publish NPM thất bại!%0A"
 ```
 
 - Định nghĩa các biến dùng chung
@@ -621,7 +621,7 @@ workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "main" && ($CI_COMMIT_MESSAGE =~ /release/ || $CI_COMMIT_MESSAGE =~ /Release/ || $CI_COMMIT_MESSAGE =~ /Merge/)
       variables:
-        SHOULD_RELEASE: 'true'
+        SHOULD_RELEASE: "true"
     - when: always
 ```
 
@@ -658,6 +658,7 @@ publish:
 ```
 
 **Giải thích:**
+
 - `image: node:22`: Sử dụng Node.js 22
 - `corepack enable`: Enable corepack để quản lý pnpm
 - `pnpm install`: Cài đặt dependencies
@@ -690,16 +691,19 @@ notify_success:
 ### Setup GitLab CI Variables
 
 1. **Truy cập GitLab Project Settings:**
+
    - Project → Settings → CI/CD → Variables
 
 2. **Thêm các variables:**
 
    - `NPM_TOKEN`: NPM Access Token
+
      - Type: Variable
      - Protected: ✅ (nếu muốn)
      - Masked: ✅ (khuyến nghị)
 
    - `TELEGRAM_BOT_TOKEN`: Telegram Bot Token (nếu dùng notification)
+
      - Type: Variable
      - Protected: ✅
      - Masked: ✅
@@ -778,15 +782,15 @@ lint:
 
 ### So sánh GitHub Actions vs GitLab CI
 
-| Tính năng | GitHub Actions | GitLab CI |
-|-----------|---------------|-----------|
-| **Miễn phí** | Public repos | Public & Private repos |
-| **Minutes miễn phí** | 2,000/month | 400/month |
-| **Cấu hình** | YAML files | YAML file (.gitlab-ci.yml) |
-| **Tích hợp** | GitHub | GitLab |
-| **Notification** | GitHub Actions | Telegram, Slack, Email |
-| **Artifacts** | ✅ | ✅ |
-| **Caching** | ✅ | ✅ |
+| Tính năng            | GitHub Actions | GitLab CI                  |
+| -------------------- | -------------- | -------------------------- |
+| **Miễn phí**         | Public repos   | Public & Private repos     |
+| **Minutes miễn phí** | 2,000/month    | 400/month                  |
+| **Cấu hình**         | YAML files     | YAML file (.gitlab-ci.yml) |
+| **Tích hợp**         | GitHub         | GitLab                     |
+| **Notification**     | GitHub Actions | Telegram, Slack, Email     |
+| **Artifacts**        | ✅             | ✅                         |
+| **Caching**          | ✅             | ✅                         |
 
 ## 📊 Quality Checks
 
@@ -820,6 +824,7 @@ npx husky add .husky/pre-commit "npx lint-staged"
 ## 📋 Checklist
 
 ### GitHub Actions
+
 - [ ] Đã setup GitHub Actions
 - [ ] Đã tạo workflow CI
 - [ ] Đã tạo workflow Publish
@@ -827,12 +832,14 @@ npx husky add .husky/pre-commit "npx lint-staged"
 - [ ] Đã test CI/CD workflow
 
 ### GitLab CI
+
 - [ ] Đã tạo file .gitlab-ci.yml
 - [ ] Đã setup GitLab CI variables (NPM_TOKEN, etc.)
 - [ ] Đã test publish workflow
 - [ ] Đã setup notification (nếu cần)
 
 ### Chung
+
 - [ ] Đã setup testing với Vitest
 - [ ] Đã setup linting với ESLint
 - [ ] Đã setup auto publish
@@ -842,18 +849,21 @@ npx husky add .husky/pre-commit "npx lint-staged"
 ## 🎓 Bài tập thực hành
 
 ### GitHub Actions
+
 1. Tạo GitHub Actions workflow cho CI
 2. Tạo workflow auto publish
 3. Setup NPM_TOKEN secret
 4. Test toàn bộ CI/CD pipeline
 
 ### GitLab CI
+
 1. Tạo file .gitlab-ci.yml
 2. Setup GitLab CI variables
 3. Test publish workflow
 4. Setup notification (optional)
 
 ### Chung
+
 1. Setup testing với Vitest
 2. Setup linting với ESLint
 3. Setup automated versioning
@@ -862,22 +872,26 @@ npx husky add .husky/pre-commit "npx lint-staged"
 ## 📚 Tài liệu tham khảo
 
 ### GitHub Actions
+
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [GitHub Actions Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - [GitHub Actions Examples](https://github.com/actions/starter-workflows)
 
 ### GitLab CI
+
 - [GitLab CI/CD Documentation](https://docs.gitlab.com/ee/ci/)
 - [GitLab CI/CD Variables](https://docs.gitlab.com/ee/ci/variables/)
 - [GitLab CI/CD Examples](https://docs.gitlab.com/ee/ci/examples/)
 
 ### Testing & Quality
+
 - [Vitest](https://vitest.dev/)
 - [ESLint](https://eslint.org/)
 - [standard-version](https://github.com/conventional-changelog/standard-version)
 - [Conventional Commits](https://www.conventionalcommits.org/)
 
 ### Ví dụ thực tế
+
 - [inet-component .gitlab-ci.yml](https://gitlabs.inet.vn/ducnd/inet-component) - GitLab CI mẫu
 
 ## 🎉 Kết thúc khóa học

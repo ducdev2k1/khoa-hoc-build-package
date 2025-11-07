@@ -23,8 +23,8 @@ Tạo file `.gitlab-ci.yml` trong root của project:
 ```yaml
 variables:
   CURL_IMAGE: curlimages/curl:latest
-  SUCCESS_MSG: '✅ Publish NPM thành công!%0A'
-  FAILURE_MSG: '❌ Publish NPM thất bại!%0A'
+  SUCCESS_MSG: "✅ Publish NPM thành công!%0A"
+  FAILURE_MSG: "❌ Publish NPM thất bại!%0A"
   TELEGRAM_TEXT: |
     📂 Repo: <a href='${CI_PROJECT_URL}'>${CI_PROJECT_URL}</a>%0A
     📦 NPM Package: <a href='https://www.npmjs.com/package/${CI_PROJECT_NAME}'>${CI_PROJECT_NAME}</a>%0A
@@ -35,7 +35,7 @@ workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "main" && ($CI_COMMIT_MESSAGE =~ /release/ || $CI_COMMIT_MESSAGE =~ /Release/ || $CI_COMMIT_MESSAGE =~ /Merge/)
       variables:
-        SHOULD_RELEASE: 'true'
+        SHOULD_RELEASE: "true"
     - when: always
 
 stages:
@@ -100,8 +100,8 @@ notify_failure:
 ```yaml
 variables:
   CURL_IMAGE: curlimages/curl:latest
-  SUCCESS_MSG: '✅ Publish NPM thành công!%0A'
-  FAILURE_MSG: '❌ Publish NPM thất bại!%0A'
+  SUCCESS_MSG: "✅ Publish NPM thành công!%0A"
+  FAILURE_MSG: "❌ Publish NPM thất bại!%0A"
   TELEGRAM_TEXT: |
     📂 Repo: <a href='${CI_PROJECT_URL}'>${CI_PROJECT_URL}</a>%0A
     📦 NPM Package: <a href='https://www.npmjs.com/package/${CI_PROJECT_NAME}'>${CI_PROJECT_NAME}</a>%0A
@@ -121,7 +121,7 @@ workflow:
   rules:
     - if: $CI_COMMIT_BRANCH == "main" && ($CI_COMMIT_MESSAGE =~ /release/ || $CI_COMMIT_MESSAGE =~ /Release/ || $CI_COMMIT_MESSAGE =~ /Merge/)
       variables:
-        SHOULD_RELEASE: 'true'
+        SHOULD_RELEASE: "true"
     - when: always
 ```
 
@@ -159,6 +159,7 @@ publish:
 ```
 
 **Giải thích từng bước:**
+
 - `image: node:22`: Sử dụng Node.js 22
 - `corepack enable`: Enable corepack để quản lý pnpm
 - `corepack prepare pnpm@latest --activate`: Cài đặt và kích hoạt pnpm
@@ -380,4 +381,3 @@ variables:
 Nếu bạn sử dụng GitHub, hãy xem [Bài 08a: CI/CD với GitHub Actions](./08a-github-actions.md).
 
 Hoặc bạn đã hoàn thành khóa học! 🎉
-

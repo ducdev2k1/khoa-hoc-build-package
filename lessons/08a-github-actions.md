@@ -297,6 +297,7 @@ jobs:
 ### Setup NPM Token
 
 1. **Tạo NPM Access Token:**
+
    - Truy cập: https://www.npmjs.com/settings/YOUR_USERNAME/tokens
    - Generate new token (Automation type)
    - Copy token
@@ -578,6 +579,7 @@ jobs:
 ```
 
 **Giải thích:**
+
 - `if: contains(github.event.head_commit.message, 'release')`: Chỉ chạy khi commit message chứa "release" hoặc "Release"
 - `working-directory: package`: Làm việc trong thư mục package (nếu có monorepo)
 - `pnpm publish --access public --no-git-checks`: Publish với quyền public và bỏ qua git checks
@@ -650,4 +652,3 @@ npx husky add .husky/pre-commit "npx lint-staged"
 Nếu bạn sử dụng GitLab, hãy xem [Bài 08b: CI/CD với GitLab CI](./08b-gitlab-ci.md).
 
 Hoặc bạn đã hoàn thành khóa học! 🎉
-
