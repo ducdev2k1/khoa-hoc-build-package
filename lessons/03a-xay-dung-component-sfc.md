@@ -629,3 +629,5 @@ Mặc dù SFC (.vue) dễ học và sử dụng, nhưng có một số hạn ch�
 
 > **Khuyến nghị:** Để build package hiệu quả hơn, hãy chuyển sang [Bài 03b: Xây dựng Component với TSX/JSX (Khuyến nghị cho Library)](./03b-xay-dung-component-tsx.md) - Cách viết component tốt hơn cho library với TypeScript support mạnh mẽ và phù hợp với việc build package.
 
+Sau đó, hãy chuyển sang [Bài 04: Cấu hình Build cho Thư viện](./04-cau-hinh-build.md).
+

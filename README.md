@@ -66,13 +66,19 @@ Sau khi hoàn thành khóa học, bạn sẽ:
 - Ví dụ sử dụng
 - Changelog và versioning
 
-### [Bài 08: CI/CD và Tự động hóa](./lessons/08-cicd-tu-dong-hoa.md)
-
+### [Bài 08a: CI/CD với GitHub Actions](./lessons/08a-github-actions.md)
 - Thiết lập GitHub Actions
 - Auto build và test
-- Auto publish khi release
+- Auto publish khi release (theo chuẩn vue-material-icons)
 - Automated versioning
 - Quality checks (linting, testing)
+
+### [Bài 08b: CI/CD với GitLab CI](./lessons/08b-gitlab-ci.md)
+- Thiết lập GitLab CI (theo chuẩn inet-component)
+- Auto build và publish package
+- Setup notification qua Telegram
+- Cấu hình GitLab CI variables
+- Best practices cho GitLab CI
 
 ## 🛠️ Yêu cầu
 

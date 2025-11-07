@@ -1,28 +1,18 @@
-# Bài 08: CI/CD và Tự động hóa
+# Bài 08a: CI/CD với GitHub Actions
 
 ## 📖 Mục tiêu bài học
 
 Sau bài học này, bạn sẽ:
 
 - Biết cách thiết lập GitHub Actions
-- Biết cách thiết lập GitLab CI
 - Hiểu cách auto build và test
 - Biết cách auto publish khi release
 - Biết cách automated versioning
 - Biết cách setup quality checks (linting, testing)
 
-## 🎯 Lựa chọn CI/CD Platform
+> **Lưu ý:** Bài này hướng dẫn sử dụng GitHub Actions. Nếu bạn sử dụng GitLab, hãy xem [Bài 08b: CI/CD với GitLab CI](./08b-gitlab-ci.md).
 
-Có 2 lựa chọn chính cho CI/CD:
-
-1. **GitHub Actions** - Miễn phí cho public repos, tích hợp tốt với GitHub
-2. **GitLab CI** - Miễn phí cho private repos, tích hợp tốt với GitLab
-
-> **Lưu ý:** Bài này sẽ hướng dẫn cả 2 cách. Bạn có thể chọn một trong hai tùy theo platform bạn sử dụng.
-
----
-
-## 🚀 Phần 1: GitHub Actions
+## 🚀 GitHub Actions
 
 ### Tạo Workflow
 
@@ -114,7 +104,7 @@ export default defineConfig({
 ```typescript
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import Button from "@/components/Button/Button.vue";
+import Button from "@/components/Button/Button.tsx";
 
 describe("Button", () => {
   it("renders correctly", () => {
@@ -306,13 +296,12 @@ jobs:
 
 ### Setup NPM Token
 
-1. Tạo NPM Access Token:
-
+1. **Tạo NPM Access Token:**
    - Truy cập: https://www.npmjs.com/settings/YOUR_USERNAME/tokens
    - Generate new token (Automation type)
    - Copy token
 
-2. Thêm vào GitHub Secrets:
+2. **Thêm vào GitHub Secrets:**
    - Repository → Settings → Secrets and variables → Actions
    - New repository secret
    - Name: `NPM_TOKEN`
@@ -479,6 +468,8 @@ jobs:
 
 ### .github/workflows/publish.yml
 
+**Ví dụ 1: Publish khi release (đơn giản)**
+
 ```yaml
 name: Publish
 
@@ -516,277 +507,81 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
 
----
-
-## 🚀 Phần 2: GitLab CI
-
-### Tạo GitLab CI Configuration
-
-Tạo file `.gitlab-ci.yml` trong root của project:
-
-**`.gitlab-ci.yml`** (Theo chuẩn inet-component):
+**Ví dụ 2: Publish khi commit message chứa "release" (theo chuẩn vue-material-icons)**
 
 ```yaml
-variables:
-  CURL_IMAGE: curlimages/curl:latest
-  SUCCESS_MSG: '✅ Publish NPM thành công!%0A'
-  FAILURE_MSG: '❌ Publish NPM thất bại!%0A'
-  TELEGRAM_TEXT: |
-    📂 Repo: <a href='${CI_PROJECT_URL}'>${CI_PROJECT_URL}</a>%0A
-    📦 NPM Package: <a href='https://www.npmjs.com/package/${CI_PROJECT_NAME}'>${CI_PROJECT_NAME}</a>%0A
-    ✍️ Commit: <a href='${CI_PROJECT_URL}/-/commit/${CI_COMMIT_SHA}'>${CI_COMMIT_SHORT_SHA}</a>%0A
-    🚀 Pipeline: <a href='${CI_PIPELINE_URL}'>${CI_PIPELINE_URL}</a>
+name: Publish to npm
 
-workflow:
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main" && ($CI_COMMIT_MESSAGE =~ /release/ || $CI_COMMIT_MESSAGE =~ /Release/ || $CI_COMMIT_MESSAGE =~ /Merge/)
-      variables:
-        SHOULD_RELEASE: 'true'
-    - when: always
+on:
+  push:
+    branches:
+      - main
 
-stages:
-  - publish
-  - notify
+jobs:
+  publish:
+    if: contains(github.event.head_commit.message, 'release') || contains(github.event.head_commit.message, 'Release')
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-publish:
-  image: node:22
-  stage: publish
-  script:
-    - corepack enable
-    - corepack prepare pnpm@latest --activate
-    - pnpm --version
-    - pnpm install
-    - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-    - pnpm run export-cpnt
-    - pnpm run build-npm
-  rules:
-    - if: $SHOULD_RELEASE == "true"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.17.0
+          registry-url: https://registry.npmjs.org/
 
-# Notify success
-notify_success:
-  stage: notify
-  image: $CURL_IMAGE
-  rules:
-    - if: $SHOULD_RELEASE == "true"
-  script:
-    - MESSAGE="${SUCCESS_MSG}%0A ${TELEGRAM_TEXT}"
-    - >
-      curl -s -X POST https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage
-      -d chat_id=${TELEGRAM_CHAT_ID}
-      -d parse_mode=HTML
-      -d text="${MESSAGE}"
-  needs:
-    - job: publish
-      artifacts: false
-  when: on_success
+      - name: Install PNPM
+        run: npm install -g pnpm
 
-# Notify failure
-notify_failure:
-  stage: notify
-  image: $CURL_IMAGE
-  rules:
-    - if: $SHOULD_RELEASE == "true"
-  script:
-    - MESSAGE="${FAILURE_MSG}%0A ${TELEGRAM_TEXT}"
-    - >
-      curl -s -X POST https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage
-      -d chat_id=${TELEGRAM_CHAT_ID}
-      -d parse_mode=HTML
-      -d text="${MESSAGE}"
-  needs:
-    - job: publish
-      artifacts: false
-  when: on_failure
-```
+      - name: Build package
+        working-directory: package
+        run: |
+          pnpm install --no-frozen-lockfile
+          rm -rf dist
+          export NODE_OPTIONS=--max-old-space-size=8192
+          pnpm run build
 
-### Giải thích GitLab CI Configuration
+      - name: Publish to NPM
+        working-directory: package
+        run: pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-#### 1. **Variables**
+      - name: Send Telegram notification
+        if: success()
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d parse_mode=HTML \
+            -d text="✅ Package đã được publish lên npm thành công!%0A
+              Tên package: ${{ github.repository }} - Commit: ${{ github.sha }}%0A
+              Repository: <a href='https://github.com/${{ github.repository }}'>https://github.com/${{ github.repository }}</a>%0A
+              Workflow Run: <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}</a>"
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
-```yaml
-variables:
-  CURL_IMAGE: curlimages/curl:latest
-  SUCCESS_MSG: '✅ Publish NPM thành công!%0A'
-  FAILURE_MSG: '❌ Publish NPM thất bại!%0A'
-```
-
-- Định nghĩa các biến dùng chung
-- `CURL_IMAGE`: Image để gửi notification
-- `SUCCESS_MSG` và `FAILURE_MSG`: Thông báo kết quả
-
-#### 2. **Workflow Rules**
-
-```yaml
-workflow:
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main" && ($CI_COMMIT_MESSAGE =~ /release/ || $CI_COMMIT_MESSAGE =~ /Release/ || $CI_COMMIT_MESSAGE =~ /Merge/)
-      variables:
-        SHOULD_RELEASE: 'true'
-    - when: always
-```
-
-- Chỉ chạy publish khi commit message chứa "release", "Release", hoặc "Merge" trên branch `main`
-- Set biến `SHOULD_RELEASE: 'true'` để trigger publish job
-
-#### 3. **Stages**
-
-```yaml
-stages:
-  - publish
-  - notify
-```
-
-- `publish`: Build và publish package
-- `notify`: Gửi thông báo kết quả
-
-#### 4. **Publish Job**
-
-```yaml
-publish:
-  image: node:22
-  stage: publish
-  script:
-    - corepack enable
-    - corepack prepare pnpm@latest --activate
-    - pnpm --version
-    - pnpm install
-    - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-    - pnpm run export-cpnt
-    - pnpm run build-npm
-  rules:
-    - if: $SHOULD_RELEASE == "true"
+      - name: Send Telegram notification on failure
+        if: failure()
+        run: |
+          curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d parse_mode=HTML \
+            -d text="❌ Publish package lên NPM thất bại!%0A
+              Tên package: ${{ github.repository }} - Commit: ${{ github.sha }}%0A
+              Repository: <a href='https://github.com/${{ github.repository }}'>https://github.com/${{ github.repository }}</a>%0A
+              Workflow Run: <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}</a>"
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 ```
 
 **Giải thích:**
-- `image: node:22`: Sử dụng Node.js 22
-- `corepack enable`: Enable corepack để quản lý pnpm
-- `pnpm install`: Cài đặt dependencies
-- `echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc`: Tạo file .npmrc với NPM token
-- `pnpm run export-cpnt`: Export components (nếu có script này)
-- `pnpm run build-npm`: Build và publish package
-
-#### 5. **Notification Jobs**
-
-```yaml
-notify_success:
-  stage: notify
-  image: $CURL_IMAGE
-  script:
-    - MESSAGE="${SUCCESS_MSG}%0A ${TELEGRAM_TEXT}"
-    - >
-      curl -s -X POST https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage
-      -d chat_id=${TELEGRAM_CHAT_ID}
-      -d parse_mode=HTML
-      -d text="${MESSAGE}"
-  needs:
-    - job: publish
-      artifacts: false
-  when: on_success
-```
-
-- Gửi thông báo thành công qua Telegram
-- Chạy sau khi `publish` job thành công
-
-### Setup GitLab CI Variables
-
-1. **Truy cập GitLab Project Settings:**
-   - Project → Settings → CI/CD → Variables
-
-2. **Thêm các variables:**
-
-   - `NPM_TOKEN`: NPM Access Token
-     - Type: Variable
-     - Protected: ✅ (nếu muốn)
-     - Masked: ✅ (khuyến nghị)
-
-   - `TELEGRAM_BOT_TOKEN`: Telegram Bot Token (nếu dùng notification)
-     - Type: Variable
-     - Protected: ✅
-     - Masked: ✅
-
-   - `TELEGRAM_CHAT_ID`: Telegram Chat ID (nếu dùng notification)
-     - Type: Variable
-     - Protected: ✅
-     - Masked: ❌
-
-### GitLab CI với npm (thay vì pnpm)
-
-Nếu bạn sử dụng npm thay vì pnpm:
-
-```yaml
-publish:
-  image: node:22
-  stage: publish
-  script:
-    - npm --version
-    - npm ci
-    - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-    - npm run build
-    - npm publish
-  rules:
-    - if: $SHOULD_RELEASE == "true"
-```
-
-### GitLab CI với yarn
-
-Nếu bạn sử dụng yarn:
-
-```yaml
-publish:
-  image: node:22
-  stage: publish
-  script:
-    - yarn --version
-    - yarn install --frozen-lockfile
-    - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-    - yarn build
-    - npm publish
-  rules:
-    - if: $SHOULD_RELEASE == "true"
-```
-
-### GitLab CI với Testing và Linting
-
-Thêm stage `test` và `lint`:
-
-```yaml
-stages:
-  - test
-  - lint
-  - publish
-  - notify
-
-test:
-  image: node:22
-  stage: test
-  script:
-    - npm ci
-    - npm run test:run
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"
-
-lint:
-  image: node:22
-  stage: lint
-  script:
-    - npm ci
-    - npm run lint:check
-    - npm run type-check
-  rules:
-    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"
-```
-
-### So sánh GitHub Actions vs GitLab CI
-
-| Tính năng | GitHub Actions | GitLab CI |
-|-----------|---------------|-----------|
-| **Miễn phí** | Public repos | Public & Private repos |
-| **Minutes miễn phí** | 2,000/month | 400/month |
-| **Cấu hình** | YAML files | YAML file (.gitlab-ci.yml) |
-| **Tích hợp** | GitHub | GitLab |
-| **Notification** | GitHub Actions | Telegram, Slack, Email |
-| **Artifacts** | ✅ | ✅ |
-| **Caching** | ✅ | ✅ |
+- `if: contains(github.event.head_commit.message, 'release')`: Chỉ chạy khi commit message chứa "release" hoặc "Release"
+- `working-directory: package`: Làm việc trong thư mục package (nếu có monorepo)
+- `pnpm publish --access public --no-git-checks`: Publish với quyền public và bỏ qua git checks
+- Telegram notification: Gửi thông báo kết quả qua Telegram
 
 ## 📊 Quality Checks
 
@@ -804,7 +599,7 @@ npm install -D husky lint-staged
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{ts,vue}": ["eslint --fix", "prettier --write"],
+    "*.{ts,vue,tsx}": ["eslint --fix", "prettier --write"],
     "*.{json,md}": ["prettier --write"]
   }
 }
@@ -819,77 +614,40 @@ npx husky add .husky/pre-commit "npx lint-staged"
 
 ## 📋 Checklist
 
-### GitHub Actions
 - [ ] Đã setup GitHub Actions
 - [ ] Đã tạo workflow CI
 - [ ] Đã tạo workflow Publish
 - [ ] Đã setup NPM_TOKEN secret
-- [ ] Đã test CI/CD workflow
-
-### GitLab CI
-- [ ] Đã tạo file .gitlab-ci.yml
-- [ ] Đã setup GitLab CI variables (NPM_TOKEN, etc.)
-- [ ] Đã test publish workflow
-- [ ] Đã setup notification (nếu cần)
-
-### Chung
 - [ ] Đã setup testing với Vitest
 - [ ] Đã setup linting với ESLint
 - [ ] Đã setup auto publish
 - [ ] Đã setup automated versioning
 - [ ] Đã setup quality checks
+- [ ] Đã test CI/CD workflow
 
 ## 🎓 Bài tập thực hành
 
-### GitHub Actions
 1. Tạo GitHub Actions workflow cho CI
 2. Tạo workflow auto publish
 3. Setup NPM_TOKEN secret
-4. Test toàn bộ CI/CD pipeline
-
-### GitLab CI
-1. Tạo file .gitlab-ci.yml
-2. Setup GitLab CI variables
-3. Test publish workflow
-4. Setup notification (optional)
-
-### Chung
-1. Setup testing với Vitest
-2. Setup linting với ESLint
-3. Setup automated versioning
-4. Test toàn bộ CI/CD pipeline
+4. Setup testing với Vitest
+5. Setup linting với ESLint
+6. Setup automated versioning
+7. Test toàn bộ CI/CD pipeline
 
 ## 📚 Tài liệu tham khảo
 
-### GitHub Actions
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [GitHub Actions Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - [GitHub Actions Examples](https://github.com/actions/starter-workflows)
-
-### GitLab CI
-- [GitLab CI/CD Documentation](https://docs.gitlab.com/ee/ci/)
-- [GitLab CI/CD Variables](https://docs.gitlab.com/ee/ci/variables/)
-- [GitLab CI/CD Examples](https://docs.gitlab.com/ee/ci/examples/)
-
-### Testing & Quality
 - [Vitest](https://vitest.dev/)
 - [ESLint](https://eslint.org/)
 - [standard-version](https://github.com/conventional-changelog/standard-version)
 - [Conventional Commits](https://www.conventionalcommits.org/)
 
-### Ví dụ thực tế
-- [inet-component .gitlab-ci.yml](https://gitlabs.inet.vn/ducnd/inet-component) - GitLab CI mẫu
+## ➡️ Bài tiếp theo
 
-## 🎉 Kết thúc khóa học
+Nếu bạn sử dụng GitLab, hãy xem [Bài 08b: CI/CD với GitLab CI](./08b-gitlab-ci.md).
 
-Chúc mừng! Bạn đã hoàn thành khóa học "Đóng gói Component Vue 3 thành Thư viện và Xuất bản lên Npm".
+Hoặc bạn đã hoàn thành khóa học! 🎉
 
-Bây giờ bạn có thể:
-
-- ✅ Tạo và đóng gói Vue 3 components thành library
-- ✅ Build và bundle package với Vite
-- ✅ Publish package lên npm
-- ✅ Tạo tài liệu và demos
-- ✅ Setup CI/CD cho tự động hóa
-
-Hãy bắt đầu tạo library của riêng bạn! 🚀

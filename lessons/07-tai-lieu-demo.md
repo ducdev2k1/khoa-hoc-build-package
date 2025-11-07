@@ -603,4 +603,6 @@ Thêm badges vào README:
 
 ## ➡️ Bài tiếp theo
 
-Sẵn sàng? Hãy chuyển sang [Bài 08: CI/CD và Tự động hóa](./08-cicd-tu-dong-hoa.md)
+Sẵn sàng? Hãy chọn một trong hai:
+- [Bài 08a: CI/CD với GitHub Actions](./08a-github-actions.md) - Nếu bạn sử dụng GitHub
+- [Bài 08b: CI/CD với GitLab CI](./08b-gitlab-ci.md) - Nếu bạn sử dụng GitLab

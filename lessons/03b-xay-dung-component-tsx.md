@@ -646,3 +646,5 @@ TSX giúp:
 
 Sẵn sàng? Hãy chuyển sang [Bài 04: Cấu hình Build cho Thư viện](./04-cau-hinh-build.md) để học cách build package với TSX components!
 
+> **Lưu ý:** Nếu bạn muốn xem cách viết component với SFC (.vue), hãy xem [Bài 03a: Xây dựng Component với SFC](./03a-xay-dung-component-sfc.md).
+
