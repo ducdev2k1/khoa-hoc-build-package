@@ -3,7 +3,7 @@
     <div v-if="loading" class="loading">Đang tải...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else class="setup-content">
-      <h1>🚀 Hướng dẫn Cài đặt và Thiết lập</h1>
+      <!-- <h1>🚀 Hướng dẫn Cài đặt và Thiết lập</h1> -->
       <div class="markdown-content" v-html="htmlContent"></div>
     </div>
   </div>
@@ -36,7 +36,7 @@
 
 <style scoped>
   .setup {
-    max-width: 900px;
+    /* max-width: 900px; */
     margin: 0 auto;
     padding: 2rem;
   }
@@ -94,5 +94,11 @@
     background: none;
     padding: 0;
     color: #d4d4d4;
+  }
+
+  @media (max-width: 767px) {
+    .setup {
+      padding: 1rem;
+    }
   }
 </style>

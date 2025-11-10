@@ -23,14 +23,14 @@
 </template>
 
 <script setup lang="ts">
-  import { getLessonById, getNextLesson, getPrevLesson } from '@/utils/lessons';
+  import { getNextLesson, getPrevLesson } from '@/utils/lessons';
   import { renderMarkdown } from '@/utils/markdown';
   import { computed, ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
 
   const route = useRoute();
   const lessonId = computed(() => route.params.id as string);
-  const lesson = computed(() => getLessonById(lessonId.value));
+  // const lesson = computed(() => getLessonById(lessonId.value));
   const nextLesson = computed(() => getNextLesson(lessonId.value));
   const prevLesson = computed(() => getPrevLesson(lessonId.value));
 
@@ -67,7 +67,7 @@
 
 <style scoped>
   .lesson {
-    max-width: 900px;
+    /* max-width: 900px; */
     margin: 0 auto;
     padding: 2rem;
     min-height: calc(100vh - 200px);

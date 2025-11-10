@@ -11,14 +11,16 @@
       <router-link to="/setup" class="nav-item" @click="closeSidebar">⚙️ Cài đặt</router-link>
       <div class="nav-section">
         <h3>📖 Bài học</h3>
-        <router-link
-          v-for="lesson in lessons"
-          :key="lesson.id"
-          :to="lesson.path"
-          class="nav-item"
-          @click="closeSidebar">
-          {{ lesson.title }}
-        </router-link>
+        <ul>
+          <router-link
+            v-for="lesson in lessons"
+            :key="lesson.id"
+            :to="lesson.path"
+            class="nav-item"
+            @click="closeSidebar">
+            {{ lesson.title }}
+          </router-link>
+        </ul>
       </div>
       <router-link to="/resources" class="nav-item" @click="closeSidebar">
         📚 Tài liệu tham khảo
@@ -30,14 +32,18 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, onUnmounted, defineExpose } from 'vue';
   import { lessons } from '@/utils/lessons';
+  import { defineExpose, onMounted, onUnmounted, ref } from 'vue';
 
   const isOpen = ref(false);
   const isMobile = ref(false);
 
   const toggleSidebar = () => {
     isOpen.value = !isOpen.value;
+    if (isMobile.value) {
+      const html = document.documentElement;
+      html.style.overflow = isOpen.value ? 'hidden' : 'auto';
+    }
   };
 
   const closeSidebar = () => {
@@ -77,6 +83,9 @@
     overflow-y: auto;
     z-index: 100;
     transition: transform 0.3s ease;
+    scrollbar-width: thin;
+  }
+  .sidebar:hover {
   }
 
   .sidebar-header {

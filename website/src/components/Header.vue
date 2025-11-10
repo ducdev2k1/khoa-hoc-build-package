@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted, onUnmounted } from 'vue';
+  import { onMounted, onUnmounted, ref } from 'vue';
 
   const isMobile = ref(false);
   const emit = defineEmits<{
@@ -52,7 +52,7 @@
   }
 
   .header-content {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: 0 auto;
     padding: 1rem 2rem;
     display: flex;

@@ -75,7 +75,7 @@
 
 <style scoped>
   .home {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: 0 auto;
     padding: 2rem;
   }
@@ -137,7 +137,7 @@
   }
 
   .content {
-    max-width: 900px;
+    /* max-width: 900px; */
     margin: 0 auto;
   }
 
@@ -194,9 +194,14 @@
     font-weight: 600;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     .home {
       padding: 1rem;
+    }
+
+    .hero {
+      padding: 0 0 2rem 0;
+      margin-bottom: 2rem;
     }
 
     .hero h1 {
