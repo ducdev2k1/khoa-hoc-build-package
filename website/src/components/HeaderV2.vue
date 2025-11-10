@@ -12,43 +12,43 @@
     isMobile.value = window.innerWidth < 768;
   };
 
-  const themeOptions: { value: Mode; label: string; short: string; icon: string }[] = [
-    {
-      value: 'light',
-      label: 'Light mode',
-      short: 'Light',
-      icon: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4V2M12 22v-2M4 12H2M22 12h-2M5 5l-1.5-1.5M20.5 20.5 19 19M19 5l1.5-1.5M4.5 19.5 6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="currentColor"/></svg>`,
-    },
-    {
-      value: 'dark',
-      label: 'Dark mode',
-      short: 'Dark',
-      icon: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/></svg>`,
-    },
-    {
-      value: 'auto',
-      label: 'Auto (system)',
-      short: 'Auto',
-      icon: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.2" fill="currentColor"/></svg>`,
-    },
-  ];
+  // const themeOptions: { value: Mode; label: string; short: string; icon: string }[] = [
+  //   {
+  //     value: 'light',
+  //     label: 'Light mode',
+  //     short: 'Light',
+  //     icon: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4V2M12 22v-2M4 12H2M22 12h-2M5 5l-1.5-1.5M20.5 20.5 19 19M19 5l1.5-1.5M4.5 19.5 6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="currentColor"/></svg>`,
+  //   },
+  //   {
+  //     value: 'dark',
+  //     label: 'Dark mode',
+  //     short: 'Dark',
+  //     icon: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="currentColor"/></svg>`,
+  //   },
+  //   {
+  //     value: 'auto',
+  //     label: 'Auto (system)',
+  //     short: 'Auto',
+  //     icon: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.2" fill="currentColor"/></svg>`,
+  //   },
+  // ];
   type Mode = 'light' | 'dark' | 'auto';
   const STORAGE_KEY = 'view-mode';
   const viewMode = ref<Mode>('auto');
 
   let mql: MediaQueryList | null = null;
-  const onPrefChange = (e: MediaQueryListEvent) => {
+  const onPrefChange = () => {
     if (viewMode.value === 'auto') applyTheme('auto');
   };
-  function setViewMode(next: Mode) {
-    viewMode.value = next;
-    try {
-      localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // ignore storage errors (private mode, etc.)
-    }
-    applyTheme(next);
-  }
+  // function setViewMode(next: Mode) {
+  //   viewMode.value = next;
+  //   try {
+  //     localStorage.setItem(STORAGE_KEY, next);
+  //   } catch {
+  //     // ignore storage errors (private mode, etc.)
+  //   }
+  //   applyTheme(next);
+  // }
   function applyTheme(mode: Mode) {
     const html = document.documentElement;
     html.classList.remove('light', 'dark');
@@ -78,11 +78,11 @@
   }
 
   /** small helper for button classes */
-  function btnClasses(selected: boolean) {
-    return selected
-      ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100'
-      : 'bg-white dark:bg-transparent text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900';
-  }
+  // function btnClasses(selected: boolean) {
+  //   return selected
+  //     ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100'
+  //     : 'bg-white dark:bg-transparent text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900';
+  // }
   onMounted(() => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -105,7 +105,7 @@
     if (mql.removeEventListener) mql.removeEventListener('change', onPrefChange);
     else if ((mql as any).removeListener) (mql as any).removeListener(onPrefChange);
   });
-  const open = ref(false);
+  // const open = ref(false);
 </script>
 
 <template>
