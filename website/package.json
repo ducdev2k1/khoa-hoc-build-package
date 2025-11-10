@@ -8,19 +8,26 @@
     "build": "node scripts/copy-md.js && vue-tsc && vite build",
     "preview": "vite preview",
     "type-check": "vue-tsc --noEmit",
-    "copy-md": "node scripts/copy-md.js"
+    "copy-md": "node scripts/copy-md.js",
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "vue": "^3.5.0",
-    "vue-router": "^4.3.0",
-    "marked": "^12.0.0",
-    "highlight.js": "^11.10.0"
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",
     "@vue/tsconfig": "^0.5.0",
     "typescript": "^5.4.0",
     "vite": "^5.2.0",
-    "vue-tsc": "^2.0.0"
+    "vue-tsc": "^2.0.0",
+    "prettier": "^3.6.2",
+    "typescript-eslint": "^8.46.3",
+    "unplugin-auto-import": "^20.2.0",
+    "@types/node": "^24.10.0",
+    "eslint-plugin-vue": "^10.5.1",
+    "globals": "^16.5.0",
+    "highlight.js": "^11.10.0",
+    "marked": "^12.0.0"
   }
 }

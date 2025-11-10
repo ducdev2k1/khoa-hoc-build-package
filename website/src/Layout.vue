@@ -11,70 +11,70 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
-import Header from "./components/Header.vue";
-import Sidebar from "./components/Sidebar.vue";
+  import { onMounted, onUnmounted, ref } from 'vue';
+  import Header from './components/Header.vue';
+  import Sidebar from './components/Sidebar.vue';
 
-const sidebarRef = ref<InstanceType<typeof Sidebar> | null>(null);
-const isMobile = ref(false);
+  const sidebarRef = ref<InstanceType<typeof Sidebar> | null>(null);
+  const isMobile = ref(false);
 
-const toggleSidebar = () => {
-  if (sidebarRef.value) {
-    sidebarRef.value.toggleSidebar();
-  }
-};
+  const toggleSidebar = () => {
+    if (sidebarRef.value) {
+      sidebarRef.value.toggleSidebar();
+    }
+  };
 
-const checkMobile = () => {
-  isMobile.value = window.innerWidth < 768;
-};
+  const checkMobile = () => {
+    isMobile.value = window.innerWidth < 768;
+  };
 
-onMounted(() => {
-  checkMobile();
-  window.addEventListener("resize", checkMobile);
-});
+  onMounted(() => {
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+  });
 
-onUnmounted(() => {
-  window.removeEventListener("resize", checkMobile);
-});
+  onUnmounted(() => {
+    window.removeEventListener('resize', checkMobile);
+  });
 </script>
 
 <style scoped>
-.layout {
-  min-height: 100vh;
-  display: flex;
-}
+  .layout {
+    min-height: 100vh;
+    display: flex;
+  }
 
-.content-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  margin-left: 0;
-  transition: margin-left 0.3s ease;
-}
-
-.content-wrapper.with-sidebar {
-  margin-left: var(--sidebar-width);
-}
-
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-@media (max-width: 767px) {
-  .content-wrapper.with-sidebar {
+  .content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     margin-left: 0;
+    transition: margin-left 0.3s ease;
+  }
+
+  .content-wrapper.with-sidebar {
+    margin-left: var(--sidebar-width);
   }
 
   .main-content {
-    padding: 0;
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
   }
 
-  .layout {
-    display: block;
+  @media (max-width: 767px) {
+    .content-wrapper.with-sidebar {
+      margin-left: 0;
+    }
+
+    .main-content {
+      padding: 0;
+    }
+
+    .layout {
+      display: block;
+    }
   }
-}
 </style>

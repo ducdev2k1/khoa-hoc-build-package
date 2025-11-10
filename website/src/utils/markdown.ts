@@ -1,6 +1,6 @@
-import hljs from "highlight.js";
-import "highlight.js/styles/github-dark.css";
-import { marked } from "marked";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github-dark.css';
+import { marked } from 'marked';
 
 // Configure marked
 marked.setOptions({
