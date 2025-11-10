@@ -96,7 +96,7 @@
 
   .hero-description {
     font-size: 1.25rem;
-    color: #666;
+    color: var(--color-note);
     margin-bottom: 2rem;
   }
 
@@ -166,7 +166,7 @@
     text-decoration: none;
     color: var(--text-color);
     transition: all 0.2s;
-    background: white;
+    background: var(--bg-card);
   }
 
   .lesson-card:hover {

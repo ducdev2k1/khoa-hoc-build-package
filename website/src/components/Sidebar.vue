@@ -84,8 +84,12 @@
     overflow-y: auto;
     z-index: 100;
     transition: transform 0.3s ease;
+    scrollbar-color: var(--border-color) transparent;
     scrollbar-width: thin;
   }
+  /* .sidebar:hover {
+    scrollbar-color: var(--border-color) transparent;
+  } */
 
   .sidebar-header {
     padding: 1.5rem;
@@ -125,7 +129,7 @@
     padding: 0.5rem 1.5rem;
     font-size: 0.875rem;
     text-transform: uppercase;
-    color: #666;
+    color: var(--color-note);
     margin: 0;
     font-weight: 600;
   }

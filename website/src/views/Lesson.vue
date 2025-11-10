@@ -128,12 +128,11 @@
     background-color: var(--code-bg);
     padding: 2px 6px;
     border-radius: 3px;
-    font-size: 0.9em;
-    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.9rem;
   }
 
   .markdown-content :deep(pre) {
-    background-color: #1e1e1e;
+    background-color: #121212;
     padding: 1rem;
     border-radius: 8px;
     overflow-x: auto;
@@ -168,7 +167,7 @@
     border-left: 4px solid var(--primary-color);
     padding-left: 1rem;
     margin: 1.5rem 0;
-    color: #666;
+    color: var(--color-note);
     font-style: italic;
   }
 
