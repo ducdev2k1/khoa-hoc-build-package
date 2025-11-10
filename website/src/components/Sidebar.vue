@@ -7,15 +7,13 @@
   const toggleSidebar = () => {
     isOpen.value = !isOpen.value;
     const html = document.documentElement;
-    if (isMobile.value) {
-      html.style.overflow = isOpen.value ? 'hidden' : 'auto';
-    } else {
-      html.style.overflow = 'auto';
-    }
+    html.style.overflow = isOpen.value ? 'hidden' : 'auto';
   };
 
   const closeSidebar = () => {
     isOpen.value = false;
+    const html = document.documentElement;
+    html.style.overflow = 'auto';
   };
 
   const checkMobile = () => {

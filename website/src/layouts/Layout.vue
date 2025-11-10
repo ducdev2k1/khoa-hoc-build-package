@@ -50,7 +50,6 @@
     flex-direction: column;
     margin-left: 0;
     transition: margin-left 0.3s ease;
-    overflow: hidden auto;
   }
 
   .content-wrapper.with-sidebar {
