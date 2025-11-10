@@ -1,23 +1,4 @@
-<template>
-  <header class="header">
-    <div class="header-content">
-      <button class="menu-toggle" @click="toggleSidebar" v-if="isMobile">☰</button>
-      <h1 class="header-title">
-        <router-link to="/">📦 Khóa học Build Package</router-link>
-      </h1>
-      <nav class="header-nav" v-if="!isMobile">
-        <router-link to="/" class="nav-link">Trang chủ</router-link>
-        <router-link to="/setup" class="nav-link">Cài đặt</router-link>
-        <router-link to="/resources" class="nav-link">Tài liệu</router-link>
-        <router-link to="/examples" class="nav-link">Ví dụ</router-link>
-      </nav>
-    </div>
-  </header>
-</template>
-
 <script setup lang="ts">
-  import { onMounted, onUnmounted, ref } from 'vue';
-
   const isMobile = ref(false);
   const emit = defineEmits<{
     toggleSidebar: [];
@@ -40,6 +21,23 @@
     window.removeEventListener('resize', checkMobile);
   });
 </script>
+
+<template>
+  <header class="header">
+    <div class="header-content">
+      <button class="menu-toggle" @click="toggleSidebar" v-if="isMobile">☰</button>
+      <h1 class="header-title">
+        <router-link to="/">📦 Khóa học Build Package</router-link>
+      </h1>
+      <nav class="header-nav" v-if="!isMobile">
+        <router-link to="/" class="nav-link">Trang chủ</router-link>
+        <router-link to="/setup" class="nav-link">Cài đặt</router-link>
+        <router-link to="/resources" class="nav-link">Tài liệu</router-link>
+        <router-link to="/examples" class="nav-link">Ví dụ</router-link>
+      </nav>
+    </div>
+  </header>
+</template>
 
 <style scoped>
   .header {

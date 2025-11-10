@@ -1,17 +1,5 @@
-<template>
-  <div class="examples">
-    <div v-if="loading" class="loading">Đang tải...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
-    <div v-else class="examples-content">
-      <!-- <h1>💡 Ví dụ Code và Templates</h1> -->
-      <div class="markdown-content" v-html="htmlContent"></div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
   import { renderMarkdown } from '@/utils/markdown';
-  import { onMounted, ref } from 'vue';
 
   const loading = ref(true);
   const error = ref<string | null>(null);
@@ -33,6 +21,17 @@
     }
   });
 </script>
+
+<template>
+  <div class="examples">
+    <div v-if="loading" class="loading">Đang tải...</div>
+    <div v-else-if="error" class="error">{{ error }}</div>
+    <div v-else class="examples-content">
+      <!-- <h1>💡 Ví dụ Code và Templates</h1> -->
+      <div class="markdown-content" v-html="htmlContent"></div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
   .examples {

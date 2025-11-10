@@ -28,4 +28,6 @@ dist-ssr
 .env.local
 .env.*.local
 
-
+#Auto import
+auto-imports.d.ts
+.eslintrc-auto-import.json

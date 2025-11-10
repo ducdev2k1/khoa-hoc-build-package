@@ -1,19 +1,6 @@
-<template>
-  <div class="layout">
-    <Sidebar ref="sidebarRef" />
-    <div class="content-wrapper" :class="{ 'with-sidebar': !isMobile }">
-      <Header @toggle-sidebar="toggleSidebar" />
-      <main class="main-content">
-        <slot />
-      </main>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-  import { onMounted, onUnmounted, ref } from 'vue';
-  import Header from './components/Header.vue';
-  import Sidebar from './components/Sidebar.vue';
+  import Header from '@/components/Header.vue';
+  import Sidebar from '@/components/Sidebar.vue';
 
   const sidebarRef = ref<InstanceType<typeof Sidebar> | null>(null);
   const isMobile = ref(false);
@@ -38,6 +25,18 @@
   });
 </script>
 
+<template>
+  <div class="layout">
+    <Sidebar ref="sidebarRef" />
+    <div class="content-wrapper" :class="{ 'with-sidebar': !isMobile }">
+      <Header @toggle-sidebar="toggleSidebar" />
+      <main class="main-content">
+        <slot />
+      </main>
+    </div>
+  </div>
+</template>
+
 <style scoped>
   .layout {
     min-height: 100vh;
@@ -50,6 +49,7 @@
     flex-direction: column;
     margin-left: 0;
     transition: margin-left 0.3s ease;
+    overflow: hidden auto;
   }
 
   .content-wrapper.with-sidebar {

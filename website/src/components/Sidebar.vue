@@ -1,3 +1,44 @@
+<script setup lang="ts">
+  import { lessons } from '@/utils/lessons';
+
+  const isOpen = ref(false);
+  const isMobile = ref(false);
+
+  const toggleSidebar = () => {
+    isOpen.value = !isOpen.value;
+    const html = document.documentElement;
+    if (isMobile.value) {
+      html.style.overflow = isOpen.value ? 'hidden' : 'auto';
+    } else {
+      html.style.overflow = 'auto';
+    }
+  };
+
+  const closeSidebar = () => {
+    isOpen.value = false;
+  };
+
+  const checkMobile = () => {
+    isMobile.value = window.innerWidth < 768;
+    if (!isMobile.value) {
+      isOpen.value = false;
+    }
+  };
+
+  onMounted(() => {
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', checkMobile);
+  });
+
+  defineExpose({
+    toggleSidebar,
+  });
+</script>
+
 <template>
   <aside class="sidebar" :class="{ 'sidebar-open': isOpen }">
     <div class="sidebar-header">
@@ -31,46 +72,6 @@
   <div v-if="isOpen && isMobile" class="sidebar-overlay" @click="closeSidebar"></div>
 </template>
 
-<script setup lang="ts">
-  import { lessons } from '@/utils/lessons';
-  import { defineExpose, onMounted, onUnmounted, ref } from 'vue';
-
-  const isOpen = ref(false);
-  const isMobile = ref(false);
-
-  const toggleSidebar = () => {
-    isOpen.value = !isOpen.value;
-    if (isMobile.value) {
-      const html = document.documentElement;
-      html.style.overflow = isOpen.value ? 'hidden' : 'auto';
-    }
-  };
-
-  const closeSidebar = () => {
-    isOpen.value = false;
-  };
-
-  const checkMobile = () => {
-    isMobile.value = window.innerWidth < 768;
-    if (!isMobile.value) {
-      isOpen.value = false;
-    }
-  };
-
-  onMounted(() => {
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-  });
-
-  onUnmounted(() => {
-    window.removeEventListener('resize', checkMobile);
-  });
-
-  defineExpose({
-    toggleSidebar,
-  });
-</script>
-
 <style scoped>
   .sidebar {
     position: fixed;
@@ -84,8 +85,6 @@
     z-index: 100;
     transition: transform 0.3s ease;
     scrollbar-width: thin;
-  }
-  .sidebar:hover {
   }
 
   .sidebar-header {

@@ -54,11 +54,11 @@ website/
 ├── public/           # Static files (markdown files sẽ được copy vào đây)
 ├── src/
 │   ├── components/   # Vue components
+│   ├── layouts/      # Layout component
 │   ├── views/        # Page components
 │   ├── router/       # Vue Router config
 │   ├── utils/        # Utilities
 │   ├── App.vue       # Root component
-│   ├── Layout.vue    # Layout component
 │   └── main.ts       # Entry point
 ├── index.html
 ├── package.json
@@ -98,4 +98,3 @@ Hoặc tạo script trong `package.json`:
 - [Vue 3 Documentation](https://vuejs.org/)
 - [Vite Documentation](https://vitejs.dev/)
 - [Vercel Documentation](https://vercel.com/docs)
-

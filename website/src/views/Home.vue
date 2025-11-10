@@ -1,3 +1,7 @@
+<script setup lang="ts">
+  import { lessons } from '@/utils/lessons';
+</script>
+
 <template>
   <div class="home">
     <div class="hero">
@@ -68,10 +72,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-  import { lessons } from '@/utils/lessons';
-</script>
 
 <style scoped>
   .home {

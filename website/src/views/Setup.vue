@@ -1,17 +1,5 @@
-<template>
-  <div class="setup">
-    <div v-if="loading" class="loading">Đang tải...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
-    <div v-else class="setup-content">
-      <!-- <h1>🚀 Hướng dẫn Cài đặt và Thiết lập</h1> -->
-      <div class="markdown-content" v-html="htmlContent"></div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
   import { renderMarkdown } from '@/utils/markdown';
-  import { onMounted, ref } from 'vue';
 
   const loading = ref(true);
   const error = ref<string | null>(null);
@@ -34,8 +22,19 @@
   });
 </script>
 
+<template>
+  <div class="p-setup">
+    <div v-if="loading" class="loading">Đang tải...</div>
+    <div v-else-if="error" class="error">{{ error }}</div>
+    <div v-else class="setup-content">
+      <!-- <h1>🚀 Hướng dẫn Cài đặt và Thiết lập</h1> -->
+      <div class="markdown-content" v-html="htmlContent"></div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
-  .setup {
+  .p-setup {
     /* max-width: 900px; */
     margin: 0 auto;
     padding: 2rem;
@@ -97,7 +96,7 @@
   }
 
   @media (max-width: 767px) {
-    .setup {
+    .p-setup {
       padding: 1rem;
     }
   }

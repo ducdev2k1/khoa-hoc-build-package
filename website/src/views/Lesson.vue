@@ -1,32 +1,6 @@
-<template>
-  <div class="lesson">
-    <div v-if="loading" class="loading">Đang tải...</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
-    <div v-else class="lesson-content">
-      <div class="lesson-header">
-        <router-link to="/" class="back-link">← Về trang chủ</router-link>
-        <!-- <h1>{{ lesson?.title }}</h1> -->
-      </div>
-
-      <div class="markdown-content" v-html="htmlContent"></div>
-
-      <div class="lesson-navigation">
-        <router-link v-if="prevLesson" :to="prevLesson.path" class="nav-btn nav-prev">
-          ← {{ prevLesson.title }}
-        </router-link>
-        <router-link v-if="nextLesson" :to="nextLesson.path" class="nav-btn nav-next">
-          {{ nextLesson.title }} →
-        </router-link>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
   import { getNextLesson, getPrevLesson } from '@/utils/lessons';
   import { renderMarkdown } from '@/utils/markdown';
-  import { computed, ref, watch } from 'vue';
-  import { useRoute } from 'vue-router';
 
   const route = useRoute();
   const lessonId = computed(() => route.params.id as string);
@@ -64,6 +38,30 @@
     },
   );
 </script>
+
+<template>
+  <div class="lesson">
+    <div v-if="loading" class="loading">Đang tải...</div>
+    <div v-else-if="error" class="error">{{ error }}</div>
+    <div v-else class="lesson-content">
+      <div class="lesson-header">
+        <router-link to="/" class="back-link">← Về trang chủ</router-link>
+        <!-- <h1>{{ lesson?.title }}</h1> -->
+      </div>
+
+      <div class="markdown-content" v-html="htmlContent"></div>
+
+      <div class="lesson-navigation">
+        <router-link v-if="prevLesson" :to="prevLesson.path" class="nav-btn nav-prev">
+          ← {{ prevLesson.title }}
+        </router-link>
+        <router-link v-if="nextLesson" :to="nextLesson.path" class="nav-btn nav-next">
+          {{ nextLesson.title }} →
+        </router-link>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
   .lesson {
