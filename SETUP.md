@@ -84,7 +84,7 @@ npm create vite@latest my-vue-library -- --template vue-ts
 
 ### Cấu trúc thư mục
 
-```
+```bash
 my-vue-library/
 ├── src/
 │   ├── components/
@@ -139,6 +139,7 @@ npm run dev
 ### Lỗi: Command not found
 
 **Giải pháp:**
+
 - Kiểm tra Node.js đã được cài đặt chưa
 - Thêm Node.js vào PATH
 - Restart terminal
@@ -146,6 +147,7 @@ npm run dev
 ### Lỗi: Permission denied
 
 **Giải pháp (Linux/Mac):**
+
 ```bash
 sudo npm install -g npm
 ```
@@ -155,6 +157,7 @@ Hoặc sử dụng nvm để tránh cần sudo.
 ### Lỗi: Version conflict
 
 **Giải pháp:**
+
 ```bash
 rm -rf node_modules package-lock.json
 npm install
@@ -163,6 +166,7 @@ npm install
 ## Tiếp theo
 
 Sau khi hoàn thành setup, hãy bắt đầu với:
+
 - [Bài 01: Giới thiệu](./lessons/01-gioi-thieu.md)
 - [Bài 02: Thiết lập Môi trường Phát triển](./lessons/02-thiet-lap-moi-truong.md)
 
@@ -172,4 +176,3 @@ Sau khi hoàn thành setup, hãy bắt đầu với:
 - [npm Documentation](https://docs.npmjs.com/)
 - [Vite Getting Started](https://vitejs.dev/guide/)
 - [Vue 3 Documentation](https://vuejs.org/)
-

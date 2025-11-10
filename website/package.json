@@ -12,24 +12,23 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.21",
     "highlight.js": "^11.10.0",
     "marked": "^12.0.0",
     "vue": "^3.5.0",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.17",
     "@types/node": "^24.10.0",
     "@vitejs/plugin-vue": "^5.0.0",
     "@vue/tsconfig": "^0.5.0",
+    "autoprefixer": "^10.4.21",
     "eslint-plugin-vue": "^10.5.1",
     "globals": "^16.5.0",
     "postcss": "^8.5.6",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.6.2",
     "sass": "^1.93.3",
-    "tailwindcss": "^4.1.17",
+    "tailwindcss": "^3.4.18",
     "typescript": "^5.4.0",
     "typescript-eslint": "^8.46.3",
     "unplugin-auto-import": "^20.2.0",

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import MarkdownViewer from '@/components/MarkdownViewer/MarkdownViewer.vue';
   import { renderMarkdown } from '@/utils/markdown';
 
   const loading = ref(true);
@@ -13,7 +14,7 @@
         throw new Error('Không tìm thấy file');
       }
       const markdown = await response.text();
-      htmlContent.value = renderMarkdown(markdown);
+      htmlContent.value = await renderMarkdown(markdown);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Có lỗi xảy ra';
     } finally {
@@ -28,7 +29,7 @@
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else class="setup-content">
       <!-- <h1>🚀 Hướng dẫn Cài đặt và Thiết lập</h1> -->
-      <div class="markdown-content" v-html="htmlContent"></div>
+      <MarkdownViewer :html="htmlContent" />
     </div>
   </div>
 </template>
@@ -53,46 +54,6 @@
 
   .setup-content h1 {
     margin-bottom: 2rem;
-  }
-
-  .markdown-content {
-    line-height: 1.8;
-  }
-
-  .markdown-content :deep(h1) {
-    font-size: 2rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 0.5rem;
-  }
-
-  .markdown-content :deep(h2) {
-    font-size: 1.75rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    color: var(--primary-color);
-  }
-
-  .markdown-content :deep(code) {
-    background-color: var(--code-bg);
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.9em;
-  }
-
-  .markdown-content :deep(pre) {
-    background-color: #1e1e1e;
-    padding: 1rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 1.5rem 0;
-  }
-
-  .markdown-content :deep(pre code) {
-    background: none;
-    padding: 0;
-    color: #d4d4d4;
   }
 
   @media (max-width: 767px) {

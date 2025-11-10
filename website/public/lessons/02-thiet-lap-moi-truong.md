@@ -61,7 +61,7 @@ npm create vite@latest my-vue-library -- --template vue-ts
 
 ### Cấu trúc thư mục sau khi tạo
 
-```
+```tree
 my-vue-library/
 ├── node_modules/
 ├── public/

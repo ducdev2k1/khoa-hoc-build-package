@@ -13,7 +13,7 @@
         throw new Error('Không tìm thấy file');
       }
       const markdown = await response.text();
-      htmlContent.value = renderMarkdown(markdown);
+      htmlContent.value = await renderMarkdown(markdown);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Có lỗi xảy ra';
     } finally {
@@ -72,26 +72,5 @@
     margin-top: 2rem;
     margin-bottom: 1rem;
     color: var(--primary-color);
-  }
-
-  .markdown-content :deep(code) {
-    background-color: var(--code-bg);
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.9em;
-  }
-
-  .markdown-content :deep(pre) {
-    background-color: #1e1e1e;
-    padding: 1rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 1.5rem 0;
-  }
-
-  .markdown-content :deep(pre code) {
-    background: none;
-    padding: 0;
-    color: #d4d4d4;
   }
 </style>

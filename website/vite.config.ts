@@ -24,6 +24,13 @@ export default defineConfig({
       vueTemplate: true,
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: ['legacy-js-api'], // Tắt warning cho legacy JS API
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

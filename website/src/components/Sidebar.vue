@@ -144,12 +144,12 @@
   }
 
   .nav-item:hover {
-    background-color: var(--code-bg);
+    background-color: var(--active-menu);
     border-left-color: var(--primary-color);
   }
 
   .nav-item.router-link-active {
-    background-color: var(--code-bg);
+    background-color: var(--active-menu);
     border-left-color: var(--primary-color);
     color: var(--primary-color);
     font-weight: 600;

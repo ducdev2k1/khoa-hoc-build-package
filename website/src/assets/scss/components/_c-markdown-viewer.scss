@@ -1,0 +1,183 @@
+.c-markdown-viewer {
+  @apply relative p-4 w-full h-full relative;
+  border-radius: 0.5rem;
+  background: var(--code-bg);
+  &-toolbar {
+    @apply absolute right-2 top-2 z-20 flex gap-2;
+  }
+  .mdv-gradient {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 4rem;
+    pointer-events: none;
+    background: linear-gradient(rgba(15, 23, 42, 0), rgb(38 50 79 / 85%));
+  }
+}
+
+/* Optional: small tweaks so pre doesn't jump when expanding */
+.markdown-viewer pre {
+  transition: max-height 240ms ease;
+  background: transparent;
+  margin: 0.75rem 0;
+  border-radius: 0.5rem;
+}
+
+/* Override prose default colors if you want dark code background */
+.markdown-viewer pre {
+  background-color: transparent;
+  color: #e6eef6;
+}
+
+/* ensure toolbar buttons are visible on dark bg */
+.markdown-viewer button {
+  color: #f8fafc;
+  pointer-events: auto;
+}
+
+/* ensure wrapper has higher stacking context for toolbar */
+.markdown-viewer > div > .relative {
+  position: relative;
+}
+
+/* gradient helper class */
+.mdv-gradient {
+  z-index: 5;
+  opacity: 1;
+}
+
+.lesson {
+  /* max-width: 900px; */
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: calc(100vh - 200px);
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.25rem;
+}
+
+.error {
+  color: #e74c3c;
+}
+
+.lesson-header {
+  margin-bottom: 2rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.lesson-header h1 {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.markdown-content {
+  line-height: 1.8;
+  h1 {
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+  }
+  h2 {
+    font-size: 1.75rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+  }
+  h3 {
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+  th,
+  td {
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    text-align: left;
+  }
+  th {
+    background-color: var(--code-bg);
+    font-weight: 600;
+  }
+  blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: var(--color-note);
+    font-style: italic;
+  }
+  ul,
+  ol {
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  li {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.lesson-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  gap: 1rem;
+}
+
+.nav-btn {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: all 0.2s;
+  max-width: 45%;
+}
+
+.nav-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: var(--code-bg);
+}
+
+.nav-next {
+  margin-left: auto;
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  .lesson {
+    padding: 1rem;
+  }
+
+  .lesson-navigation {
+    flex-direction: column;
+  }
+
+  .nav-btn {
+    max-width: 100%;
+  }
+
+  .nav-next {
+    text-align: left;
+  }
+}
