@@ -41,7 +41,7 @@
 <style scoped>
   .layout {
     min-height: 100vh;
-    display: flex;
+    display: block;
   }
 
   .content-wrapper {
