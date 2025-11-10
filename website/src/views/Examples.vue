@@ -3,7 +3,7 @@
     <div v-if="loading" class="loading">Đang tải...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else class="examples-content">
-      <h1>💡 Ví dụ Code và Templates</h1>
+      <!-- <h1>💡 Ví dụ Code và Templates</h1> -->
       <div class="markdown-content" v-html="htmlContent"></div>
     </div>
   </div>
