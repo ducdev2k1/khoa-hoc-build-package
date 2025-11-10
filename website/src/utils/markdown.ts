@@ -23,11 +23,9 @@ const renderer = {
         return `<pre><code class="language-${lang}">${res.value}</code></pre>`;
       } else {
         const auto = hljs.highlightAuto(code);
-        console.log('[markdown.ts] used highlightAuto, detected=', auto.language);
         return `<pre><code class="language-${auto.language || 'text'}">${auto.value}</code></pre>`;
       }
     } catch (err) {
-      console.warn('[markdown.ts] highlight failed', err);
       // escape to be safe
       return `<pre><code>${escaped ? code : escapeHtml(code)}</code></pre>`;
     }

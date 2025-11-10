@@ -30,10 +30,9 @@
   const observerRef = ref<MutationObserver | null>(null);
 
   // defaults
-  const COLLAPSED_HEIGHT = props.options?.collapsedHeight ?? 160; // px
+  const COLLAPSED_HEIGHT = props.options?.collapsedHeight ?? 360; // px
 
   function showToast(msg: string) {
-    console.log('🚀 MarkdownViewer.vue ~ msg :>>', msg);
     toast.value = msg;
     if (toastTimer) window.clearTimeout(toastTimer);
     toastTimer = window.setTimeout(() => (toast.value = ''), 1800);
