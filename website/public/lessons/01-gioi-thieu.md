@@ -134,13 +134,56 @@ Hãy xem package mẫu: [inet-component](https://www.npmjs.com/package/inet-comp
 
 ```
 inet-component/
-├── dist/              # Build output
-├── src/               # Source code
-│   ├── components/    # Components
-│   └── index.ts       # Entry point
-├── package.json       # Package config
-├── vite.config.ts     # Vite config
-└── README.md          # Documentation
+├── 📁 src
+│   ├── 📁 components
+│   │   ├── 📁 DAvatar
+│   │   │   ├── 🎨 DAvatar.scss
+│   │   │   ├── 📄 DAvatar.tsx
+│   │   │   └── 📄 useDAvatar.ts
+│   │   ├── 📁 DBadge
+│   │   │   ├── 🎨 DBadge.scss
+│   │   │   ├── 📄 DBadge.spec.ts
+│   │   │   ├── 📄 DBadge.tsx
+│   │   │   └── 📝 Doc.md
+│   │   ├── 📁 DInetApplication
+│   │   │   ├── 🎨 DInetApplication.scss
+│   │   │   ├── 📄 DInetApplication.spec.ts
+│   │   │   ├── 📄 DInetApplication.tsx
+│   │   │   ├── 📄 DinetApplicationConfig.ts
+│   │   │   └── 📄 Icon.ts
+│   │   └── 📄 index.ts
+│   ├── 📁 locales
+│   │   ├── ⚙️ en.json
+│   │   ├── 📄 index.ts
+│   │   ├── ⚙️ ko-KR.json
+│   │   ├── ⚙️ vi.json
+│   │   ├── ⚙️ zh-CN.json
+│   │   └── ⚙️ zh-TW.json
+│   ├── 📁 plugins
+│   │   └── 📄 i18n.ts
+│   ├── 📁 utils
+│   │   ├── 📄 MyEnum.ts
+│   │   └── 📄 useRender.ts
+│   ├── 📄 App.vue
+│   ├── 📄 index.ts
+│   ├── 📄 main.ts
+│   ├── 🎨 style.css
+│   └── 📄 vite-env.d.ts
+├── ⚙️ .env.dev
+├── ⚙️ .gitignore
+├── ⚙️ .gitlab-ci.yml
+├── ⚙️ .prettierrc
+├── 📝 README.md
+├── 📄 eslint.config.mjs
+├── 🌐 index.html
+├── ⚙️ package.json
+├── ⚙️ pnpm-lock.yaml
+├── ⚙️ tsconfig.json
+├── ⚙️ tsconfig.node.json
+├── ⚙️ tsconfig.vitest.json
+├── 📄 vite.config.d.ts
+├── 📄 vite.config.ts
+└── 📄 vitest.config.ts
 ```
 
 ### Cách sử dụng
@@ -151,11 +194,51 @@ npm install inet-component
 
 ```vue
 <template>
-  <InetButton>Click me</InetButton>
+  <div>
+    <!-- Cách dùng cơ bản -->
+    <DInetApplication />
+
+    <!-- Với item tùy chỉnh -->
+    <DInetApplication
+      :menu-items="customItems"
+      button-text="Ứng dụng của tôi"
+      menu-position="bottom-right"
+      tooltip-position="bottom-left"
+      :dark-mode="false"
+      :item-click="handleItemClick"
+    />
+
+    <!-- Với custom button slot -->
+    <DInetApplication>
+      <template #button>
+        <button type="button">Mở ứng dụng</button>
+      </template>
+    </DInetApplication>
+  </div>
 </template>
 
-<script setup>
-import { InetButton } from "inet-component";
+<script setup lang="ts">
+import { DInetApplication, MenuItem } from "inet-component";
+import "inet-component/dist/style.css";
+
+const customItems: MenuItem[] = [
+  {
+    id: "app1",
+    name: "Ứng dụng 1",
+    icon: "🚀",
+    onClick: () => console.log("App 1 được click"),
+  },
+  {
+    id: "app2",
+    name: "Ứng dụng 2",
+    icon: "⚡",
+    onClick: () => window.open("https://example.com"),
+  },
+];
+
+const handleItemClick = (item: MenuItem) => {
+  console.log("Item được click:", item);
+};
 </script>
 ```
 
