@@ -17,7 +17,7 @@
   --bg-color: #ffffff;
   --text-color: #2c3e50;
   --border-color: #e0e0e0;
-  --code-bg: #f5f5f5;
+  --code-bg: #0a0e12;
   --color-note: #666;
   --bg-card: #fff;
   --active-menu: #f5f5f5;
@@ -59,6 +59,7 @@ code {
   padding: 2px 6px;
   border-radius: 3px;
   font-size: 0.9em;
+  @apply text-slate-200;
 }
 
 pre {

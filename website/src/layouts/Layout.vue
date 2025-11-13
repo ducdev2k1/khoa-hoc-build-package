@@ -1,6 +1,5 @@
 <script setup lang="ts">
-  // import Header from '@/components/Header.vue';
-  import HeaderV2 from '@/components/HeaderV2.vue';
+  import Header from '@/components/Header.vue';
   import Sidebar from '@/components/Sidebar.vue';
 
   const sidebarRef = ref<InstanceType<typeof Sidebar> | null>(null);
@@ -30,7 +29,7 @@
   <div class="layout">
     <Sidebar ref="sidebarRef" />
     <div class="content-wrapper" :class="{ 'with-sidebar': !isMobile }">
-      <HeaderV2 @toggle-sidebar="toggleSidebar" />
+      <Header @toggle-sidebar="toggleSidebar" />
       <main class="main-content">
         <slot />
       </main>

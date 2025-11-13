@@ -85,9 +85,6 @@
     scrollbar-color: var(--border-color) transparent;
     scrollbar-width: thin;
   }
-  /* .sidebar:hover {
-    scrollbar-color: var(--border-color) transparent;
-  } */
 
   .sidebar-header {
     padding: 1.5rem;
