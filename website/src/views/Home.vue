@@ -126,7 +126,7 @@
   }
 
   .btn-secondary {
-    background: var(--code-bg);
+    @apply bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100;
     color: var(--text-color);
     border: 1px solid var(--border-color);
   }

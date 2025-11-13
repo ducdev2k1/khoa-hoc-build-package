@@ -1,5 +1,5 @@
 .c-markdown-viewer {
-  @apply relative p-4 w-full h-full relative;
+  @apply relative p-4 w-full h-full relative mb-2 overflow-hidden;
   border-radius: 0.5rem;
   background: var(--code-bg);
   &-toolbar {

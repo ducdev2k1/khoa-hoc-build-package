@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import SwicthViewMode from './SwicthViewMode/SwicthViewMode.vue';
+
   const isMobile = ref(false);
   const emit = defineEmits<{
     toggleSidebar: [];
@@ -29,12 +31,15 @@
       <h1 class="header-title">
         <router-link to="/">📦 Khóa học Build Package</router-link>
       </h1>
+      <!-- <ChangeViewMode /> -->
       <nav class="header-nav" v-if="!isMobile">
         <router-link to="/" class="nav-link">Trang chủ</router-link>
         <router-link to="/setup" class="nav-link">Cài đặt</router-link>
         <router-link to="/resources" class="nav-link">Tài liệu</router-link>
         <router-link to="/examples" class="nav-link">Ví dụ</router-link>
       </nav>
+
+      <SwicthViewMode />
     </div>
   </header>
 </template>
@@ -43,7 +48,7 @@
   .header {
     position: sticky;
     top: 0;
-    background: white;
+    background: var(--bg-color);
     border-bottom: 1px solid var(--border-color);
     z-index: 50;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

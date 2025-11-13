@@ -153,6 +153,8 @@
         const target = pre.scrollHeight || pre.getBoundingClientRect().height || 9999;
         pre.style.maxHeight = `${target}px`;
         pre.dataset.collapsed = 'false';
+        pre.style.overflowX = 'auto';
+
         // remove gradient if present
         const grad = wrapper.querySelector('.mdv-gradient');
         if (grad) grad.remove();
