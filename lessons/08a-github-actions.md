@@ -19,47 +19,72 @@ Sau bài học này, bạn sẽ:
 Tạo file `.github/workflows/ci.yml`:
 
 ```yaml
-name: CI
+name: Publish to npm
 
 on:
   push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
+    branches:
+      - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
+  publish:
+    if: contains(github.event.head_commit.message, 'release') || contains(github.event.head_commit.message, 'Release')
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          node-version: 22.17.0
+          registry-url: https://registry.npmjs.org/
+          # cache: "pnpm"
 
-      - name: Install dependencies
-        run: npm ci
+      - name: install PNPM
+        run: npm install -g pnpm
 
-      - name: Type check
-        run: npm run type-check
+      - name: Build package
+        working-directory: package
+        run: |
+          pnpm install --no-frozen-lockfile
+          rm -rf dist 
+          export NODE_OPTIONS=--max-old-space-size=8192
+          pnpm run build
 
-      - name: Build
-        run: npm run build
+      - name: Publish to NPM
+        working-directory: package
+        run: pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-${{ matrix.node-version }}
-          path: dist/
-          retention-days: 7
+      - name: Send Telegram notification
+        if: success() # Chỉ gửi thông báo nếu bước publish thành công
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d parse_mode=HTML \
+            -d text="✅ Package đã được publish lên npm thành công!%0A
+              Tên package: ${{ github.repository }} - Commit: ${{ github.sha }}%0A
+              Repository: <a href='https://github.com/${{ github.repository }}'>https://github.com/${{ github.repository }}</a>%0A
+              Workflow Run: <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}</a>"
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: Send Telegram notification on failure
+        if: failure() # Chỉ chạy nếu một bước trước đó thất bại
+        run: |
+          curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d parse_mode=HTML \
+            -d text="❌ Publish package lên NPM thất bại!%0A
+              Tên package: ${{ github.repository }} - Commit: ${{ github.sha }}%0A
+              Repository: <a href='https://github.com/${{ github.repository }}'>https://github.com/${{ github.repository }}</a>%0A
+              Workflow Run: <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}</a>"
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 ```
 
 ## 🧪 Testing
