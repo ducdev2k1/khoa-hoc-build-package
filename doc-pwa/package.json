@@ -1,0 +1,36 @@
+{
+  "name": "pwa-course-vue3",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@rushstack/eslint-patch": "^1.15.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/node": "^20.5.1",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "autoprefixer": "^10.4.15",
+    "cross-env": "^10.1.0",
+    "markdown-it-prism": "^2.3.0",
+    "postcss": "^8.4.28",
+    "prismjs": "^1.29.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.0.2",
+    "typescript-eslint": "^8.47.0",
+    "unplugin-auto-import": "^0.16.6",
+    "unplugin-vue-components": "^0.25.1",
+    "vite": "^4.4.5",
+    "vite-plugin-pwa": "^0.16.4",
+    "vite-plugin-vue-markdown": "^0.23.5",
+    "vue-tsc": "^1.8.5"
+  }
+}
