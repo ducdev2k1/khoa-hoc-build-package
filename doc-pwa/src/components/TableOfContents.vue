@@ -81,7 +81,7 @@ const scrollTo = (id: string) => {
     const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
 
     // Account for fixed headers - increased offset for better visibility
-    const offset = 100;
+    const offset = 80;
 
     window.scrollTo({
       top: elementPosition - offset,

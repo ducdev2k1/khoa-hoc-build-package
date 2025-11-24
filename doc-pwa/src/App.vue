@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors duration-300"
-  >
+  <div>
     <!-- Header Mobile -->
     <header
       class="md:hidden flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky top-0 z-30"
@@ -41,20 +39,14 @@
         "
       >
         <div class="p-6">
-          <div class="flex items-center gap-3 mb-2">
-            <img
-              src="/logo.png"
-              alt="PWA Logo"
-              class="w-12 h-12 rounded-lg shadow-md"
-            />
+          <div class="flex items-center gap-3 mb-6">
+            <img src="/pwa-192x192.png" alt="Logo" class="w-8 h-8 rounded-lg" />
             <div>
-              <h1
-                class="text-xl font-bold text-indigo-600 dark:text-indigo-400"
-              >
-                Khóa học PWA
+              <h1 class="font-bold text-indigo-600 dark:text-indigo-400">
+                PWA Course
               </h1>
               <p class="text-xs text-gray-500 dark:text-gray-400">
-                Vue 3 + Vite + PWA
+                Vue 3 + Vite
               </p>
             </div>
           </div>
@@ -136,10 +128,10 @@
 </template>
 
 <script setup lang="ts">
+import TableOfContents from "@/components/TableOfContents.vue";
+import { useTheme } from "@/composables/useTheme";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useTheme } from "@/composables/useTheme";
-import TableOfContents from "@/components/TableOfContents.vue";
 
 const router = useRouter();
 const routes = router.getRoutes().filter((r) => r.meta.title);
