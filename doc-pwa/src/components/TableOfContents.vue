@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -32,16 +32,35 @@ const headers = ref<{ id: string; text: string; level: number }[]>([]);
 const activeId = ref<string>("");
 let observer: IntersectionObserver | null = null;
 
+const slugify = (text: string) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/&/g, "-and-") // Replace & with 'and'
+    .replace(/[^\w\-]+/g, "") // Remove all non-word characters
+    .replace(/\-\-+/g, "-"); // Replace multiple - with single -
+};
+
 const extractHeaders = () => {
   setTimeout(() => {
     const elements = document.querySelectorAll(
       ".markdown-body h2, .markdown-body h3"
     );
-    headers.value = Array.from(elements).map((el) => ({
-      id: el.id,
-      text: el.textContent || "",
-      level: parseInt(el.tagName.substring(1)),
-    }));
+
+    headers.value = Array.from(elements).map((el) => {
+      // Generate ID if missing
+      if (!el.id) {
+        el.id = slugify(el.textContent || "");
+      }
+
+      return {
+        id: el.id,
+        text: el.textContent || "",
+        level: parseInt(el.tagName.substring(1)),
+      };
+    });
 
     setupObserver();
   }, 100);
