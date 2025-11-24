@@ -80,7 +80,7 @@ Nếu bạn gặp vấn đề trong quá trình học:
 
 ## Bắt đầu ngay!
 
-Sẵn sàng chưa? Hãy bắt đầu với [01 - Giới thiệu PWA](/01-introduction) để hiểu rõ hơn về Progressive Web Apps!
+Sẵn sàng chưa? Hãy bắt đầu với [01 - Giới thiệu PWA](/introduction) để hiểu rõ hơn về Progressive Web Apps!
 
 ---
 

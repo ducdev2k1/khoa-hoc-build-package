@@ -401,7 +401,7 @@ self.addEventListener("fetch", (event) => {
 
 ## Bước tiếp theo
 
-Hiểu Service Worker rồi! Giờ đến [06 - Offline Strategies](/06-offline-strategies) để học các chiến lược offline chi tiết hơn!
+Hiểu Service Worker rồi! Giờ đến [06 - Offline Strategies](/offline-strategies) để học các chiến lược offline chi tiết hơn!
 
 ---
 

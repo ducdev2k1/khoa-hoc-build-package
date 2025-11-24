@@ -154,4 +154,4 @@ PWA phù hợp với:
 
 ## Bước tiếp theo
 
-Bây giờ bạn đã hiểu PWA là gì, hãy chuyển sang [02 - Mục tiêu học tập](/02-learning-objectives) để xem roadmap chi tiết của khóa học!
+Bây giờ bạn đã hiểu PWA là gì, hãy chuyển sang [02 - Mục tiêu học tập](/learning-objectives) để xem roadmap chi tiết của khóa học!

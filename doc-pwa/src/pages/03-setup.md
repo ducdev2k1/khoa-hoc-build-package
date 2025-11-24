@@ -305,7 +305,7 @@ Thumbs.db
 
 ## Bước tiếp theo
 
-Setup xong rồi! Giờ chuyển sang [04 - Vite Config & Manifest](/04-vite-config-and-manifest) để cấu hình PWA!
+Setup xong rồi! Giờ chuyển sang [04 - Vite Config & Manifest](/vite-config) để cấu hình PWA!
 
 ---
 

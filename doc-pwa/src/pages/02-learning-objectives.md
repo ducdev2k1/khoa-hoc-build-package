@@ -245,7 +245,7 @@ Sau khóa học, bạn nên có khả năng:
 
 ## Bước tiếp theo
 
-Sẵn sàng bắt đầu? Chuyển sang [03 - Setup](/03-setup) để cài đặt môi trường phát triển!
+Sẵn sàng bắt đầu? Chuyển sang [03 - Setup](/setup) để cài đặt môi trường phát triển!
 
 ---
 

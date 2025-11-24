@@ -391,7 +391,7 @@ registerSW({ immediate: true });
 
 ## Bước tiếp theo
 
-Manifest đã xong! Giờ đến phần quan trọng nhất: [05 - Service Worker](/05-service-worker)!
+Manifest đã xong! Giờ đến phần quan trọng nhất: [05 - Service Worker](/service-worker)!
 
 ---
 

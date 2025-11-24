@@ -432,7 +432,7 @@ getTTFB(console.log);
 
 ## Bước tiếp theo
 
-Deploy xong! Giờ làm [11 - Practical Labs](/11-practical-labs) để practice!
+Deploy xong! Giờ làm [11 - Bài lab thực hành](/practical-labs) để practice!
 
 ---
 
