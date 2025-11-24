@@ -1,5 +1,5 @@
 <template>
-  <nav class="sticky top-6 max-h-[calc(100vh-3rem)] overflow-auto">
+  <nav class="sticky top-6 max-h-[calc(100vh-3rem)] overflow-auto pr-6">
     <h3
       class="font-semibold text-gray-900 dark:text-gray-100 mb-4 uppercase text-xs tracking-wider"
     >
@@ -71,6 +71,8 @@ const setupObserver = () => {
     observer.disconnect();
   }
 
+  const mainContent = document.getElementById("article-content");
+
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -80,6 +82,7 @@ const setupObserver = () => {
       });
     },
     {
+      root: mainContent, // Use article content as root
       rootMargin: "-80px 0px -80% 0px",
       threshold: 0,
     }
@@ -95,15 +98,20 @@ const setupObserver = () => {
 
 const scrollTo = (id: string) => {
   const el = document.getElementById(id);
-  if (el) {
-    // Get the element's position relative to the document
-    const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+  const mainContent = document.getElementById("article-content");
 
-    // Account for fixed headers - increased offset for better visibility
-    const offset = 80;
+  if (el && mainContent) {
+    // Calculate position relative to the main content container
+    // We need to account for the container's current scroll position
+    const elementTop = el.getBoundingClientRect().top;
+    const containerTop = mainContent.getBoundingClientRect().top;
+    const scrollTop = mainContent.scrollTop;
 
-    window.scrollTo({
-      top: elementPosition - offset,
+    // Position inside the container = current scroll + (element top - container top)
+    const offsetPosition = scrollTop + (elementTop - containerTop) - 80; // 80px offset
+
+    mainContent.scrollTo({
+      top: offsetPosition,
       behavior: "smooth",
     });
 

@@ -1,12 +1,22 @@
 <template>
-  <div>
+  <div
+    class="h-[100dvh] flex flex-col bg-white dark:bg-gray-900 transition-colors duration-300 overflow-hidden"
+  >
     <!-- Header Mobile -->
     <header
-      class="md:hidden flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky top-0 z-30"
+      class="md:hidden flex-shrink-0 flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 z-30"
     >
-      <span class="font-bold text-indigo-600 dark:text-indigo-400"
-        >PWA Course</span
-      >
+      <div class="flex items-center gap-2">
+        <img src="/pwa-192x192.png" alt="Logo" class="w-8 h-8 rounded-lg" />
+        <div>
+          <h1 class="font-bold text-indigo-600 dark:text-indigo-400 text-sm">
+            Khóa học PWA
+          </h1>
+          <p class="text-[10px] text-gray-500 dark:text-gray-400">
+            Vue3 + Vite + PWA
+          </p>
+        </div>
+      </div>
       <button
         @click="showMobileMenu = !showMobileMenu"
         class="text-gray-600 dark:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
@@ -30,23 +40,29 @@
       </button>
     </header>
 
-    <div class="flex flex-1 md:flex-row flex-col relative">
+    <div class="flex flex-1 md:flex-row flex-col relative overflow-hidden">
       <!-- Left Sidebar (Navigation) -->
       <aside
-        class="w-full md:w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-shrink-0 transition-all duration-300 ease-in-out md:translate-x-0 fixed md:sticky top-0 h-screen overflow-y-auto z-20"
+        class="w-full md:w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-shrink-0 transition-all duration-300 ease-in-out md:translate-x-0 fixed md:relative h-full overflow-y-auto z-20"
         :class="
           showMobileMenu ? 'translate-x-0 sidebar-enter' : '-translate-x-full'
         "
       >
         <div class="p-6">
-          <div class="flex items-center gap-3 mb-6">
-            <img src="/pwa-192x192.png" alt="Logo" class="w-8 h-8 rounded-lg" />
+          <div class="flex items-center gap-3 mb-2">
+            <img
+              src="/pwa-192x192.png"
+              alt="Logo"
+              class="w-12 h-12 rounded-lg"
+            />
             <div>
-              <h1 class="font-bold text-indigo-600 dark:text-indigo-400">
-                PWA Course
+              <h1
+                class="text-xl font-bold text-indigo-600 dark:text-indigo-400"
+              >
+                Khóa học PWA
               </h1>
               <p class="text-xs text-gray-500 dark:text-gray-400">
-                Vue 3 + Vite
+                Vue 3 + Vite + PWA
               </p>
             </div>
           </div>
@@ -107,18 +123,21 @@
 
       <!-- Main Content -->
       <main
-        class="flex-1 min-w-0 bg-white dark:bg-gray-900 transition-colors duration-300"
+        class="flex-1 min-w-0 bg-white dark:bg-gray-900 transition-colors duration-300 overflow-hidden flex flex-col"
       >
         <div
-          class="max-w-[1600px] mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col xl:flex-row gap-8"
+          class="flex-1 max-w-[1600px] mx-auto w-full flex flex-col xl:flex-row overflow-hidden"
         >
           <!-- Article Content -->
-          <article class="flex-1 min-w-0">
+          <article
+            id="article-content"
+            class="flex-1 min-w-0 overflow-y-auto h-full scroll-smooth px-4 py-8 sm:px-6 lg:px-8"
+          >
             <router-view class="markdown-body dark:prose-invert max-w-none" />
           </article>
 
           <!-- Right Sidebar (TOC) -->
-          <aside class="hidden xl:block w-64 flex-shrink-0">
+          <aside class="hidden xl:block w-64 flex-shrink-0 py-8 pl-6">
             <TableOfContents />
           </aside>
         </div>
