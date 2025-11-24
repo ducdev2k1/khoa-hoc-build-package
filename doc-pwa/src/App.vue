@@ -143,10 +143,12 @@
         </div>
       </main>
     </div>
+    <ReloadPrompt />
   </div>
 </template>
 
 <script setup lang="ts">
+import ReloadPrompt from "@/components/ReloadPrompt.vue";
 import TableOfContents from "@/components/TableOfContents.vue";
 import { useTheme } from "@/composables/useTheme";
 import { ref } from "vue";

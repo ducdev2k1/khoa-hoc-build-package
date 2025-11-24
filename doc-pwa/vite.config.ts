@@ -38,7 +38,7 @@ export default defineConfig({
       dts: "src/components.d.ts",
     }),
     VitePWA({
-      registerType: "autoUpdate",
+      registerType: "prompt",
       includeAssets: ["favicon.ico", "vite.svg", "course-config.json"],
       manifest: {
         name: "Khóa học PWA - Progressive Web App",
