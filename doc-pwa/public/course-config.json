@@ -1,0 +1,52 @@
+{
+  "course": {
+    "title": "Khóa học PWA - Progressive Web App",
+    "subtitle": "Vue 3 + Vite + PWA",
+    "description": "Học cách xây dựng Progressive Web App với Vue 3 và Vite. Khóa học bao gồm service workers, offline strategies, caching, và deployment.",
+    "version": "1.0.0",
+    "author": "PWA Course Team",
+    "language": "vi"
+  },
+  "pwa": {
+    "name": "PWA Course - Vue 3",
+    "short_name": "PWA Course",
+    "description": "Khóa học Progressive Web App với Vue 3 và Vite",
+    "theme_color": "#4f46e5",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "start_url": "/"
+  },
+  "theme": {
+    "primary": "#4f46e5",
+    "secondary": "#818cf8",
+    "accent": "#6366f1",
+    "dark": {
+      "primary": "#818cf8",
+      "secondary": "#6366f1",
+      "background": "#111827"
+    }
+  },
+  "features": {
+    "offline": true,
+    "installable": true,
+    "notifications": false,
+    "darkMode": true,
+    "tableOfContents": true
+  },
+  "meta": {
+    "keywords": [
+      "PWA",
+      "Vue 3",
+      "Vite",
+      "Service Worker",
+      "Offline",
+      "Web App",
+      "Progressive Web App"
+    ],
+    "og:type": "website",
+    "og:locale": "vi_VN",
+    "twitter:card": "summary_large_image"
+  }
+}

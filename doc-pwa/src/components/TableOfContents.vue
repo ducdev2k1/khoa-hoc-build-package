@@ -1,14 +1,19 @@
 <template>
   <nav class="sticky top-6 max-h-[calc(100vh-3rem)] overflow-auto">
-    <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-4 uppercase text-xs tracking-wider">
+    <h3
+      class="font-semibold text-gray-900 dark:text-gray-100 mb-4 uppercase text-xs tracking-wider"
+    >
       Mục lục
     </h3>
-    <ul class="space-y-2 text-sm">
+    <ul class="space-y-2 text-sm pl-4">
       <li v-for="header in headers" :key="header.id">
         <a
           :href="`#${header.id}`"
-          class="block text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-          :class="{ 'pl-4': header.level === 3 }"
+          class="block py-1 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-200 relative"
+          :class="{
+            'pl-4': header.level === 3,
+            'toc-active': activeId === header.id,
+          }"
           @click.prevent="scrollTo(header.id)"
         >
           {{ header.text }}
@@ -19,38 +24,98 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUpdated, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, onMounted, onUnmounted, watch } from "vue";
+import { useRoute } from "vue-router";
 
-const route = useRoute()
-const headers = ref<{ id: string; text: string; level: number }[]>([])
+const route = useRoute();
+const headers = ref<{ id: string; text: string; level: number }[]>([]);
+const activeId = ref<string>("");
+let observer: IntersectionObserver | null = null;
 
 const extractHeaders = () => {
-  // Wait for DOM update
   setTimeout(() => {
-    const elements = document.querySelectorAll('.markdown-body h2, .markdown-body h3')
+    const elements = document.querySelectorAll(
+      ".markdown-body h2, .markdown-body h3"
+    );
     headers.value = Array.from(elements).map((el) => ({
       id: el.id,
-      text: el.textContent || '',
+      text: el.textContent || "",
       level: parseInt(el.tagName.substring(1)),
-    }))
-  }, 100)
-}
+    }));
+
+    setupObserver();
+  }, 100);
+};
+
+const setupObserver = () => {
+  if (observer) {
+    observer.disconnect();
+  }
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activeId.value = entry.target.id;
+        }
+      });
+    },
+    {
+      rootMargin: "-80px 0px -80% 0px",
+      threshold: 0,
+    }
+  );
+
+  headers.value.forEach((header) => {
+    const el = document.getElementById(header.id);
+    if (el) {
+      observer?.observe(el);
+    }
+  });
+};
 
 const scrollTo = (id: string) => {
-  const el = document.getElementById(id)
+  const el = document.getElementById(id);
   if (el) {
-    el.scrollIntoView({ behavior: 'smooth' })
-    history.pushState(null, '', `#${id}`)
-  }
-}
+    // Get the element's position relative to the document
+    const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
 
-onMounted(extractHeaders)
+    // Account for fixed headers - increased offset for better visibility
+    const offset = 100;
+
+    window.scrollTo({
+      top: elementPosition - offset,
+      behavior: "smooth",
+    });
+
+    // Update URL hash and active state after scroll starts
+    setTimeout(() => {
+      history.pushState(null, "", `#${id}`);
+      activeId.value = id;
+    }, 100);
+  }
+};
+
+onMounted(() => {
+  extractHeaders();
+
+  if (window.location.hash) {
+    const id = window.location.hash.substring(1);
+    setTimeout(() => scrollTo(id), 500);
+  }
+});
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect();
+  }
+});
 
 watch(
   () => route.path,
   () => {
-    extractHeaders()
+    activeId.value = "";
+    extractHeaders();
   }
-)
+);
 </script>
