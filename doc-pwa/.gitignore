@@ -127,4 +127,5 @@ dist
 
 
 #PWA
-dev-dist
+dev-dist/sw.js
+dev-dist/workbox-*.js
