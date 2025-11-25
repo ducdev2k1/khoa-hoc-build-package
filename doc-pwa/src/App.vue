@@ -19,13 +19,12 @@
       </div>
       <button
         @click="showMobileMenu = !showMobileMenu"
-        class="text-gray-600 dark:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+        class="text-gray-600 dark:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors z-50 relative"
         aria-label="Toggle menu"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6 transition-transform duration-300"
-          :class="{ 'rotate-90': showMobileMenu }"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -34,7 +33,11 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
+            :d="
+              showMobileMenu
+                ? 'M6 18L18 6M6 6l12 12'
+                : 'M4 6h16M4 12h16M4 18h16'
+            "
           />
         </svg>
       </button>
@@ -43,28 +46,49 @@
     <div class="flex flex-1 md:flex-row flex-col relative overflow-hidden">
       <!-- Left Sidebar (Navigation) -->
       <aside
-        class="w-full md:w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-shrink-0 transition-all duration-300 ease-in-out md:translate-x-0 fixed md:relative h-full overflow-y-auto z-20"
-        :class="
-          showMobileMenu ? 'translate-x-0 sidebar-enter' : '-translate-x-full'
-        "
+        class="w-full md:w-72 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-shrink-0 transition-transform duration-300 ease-in-out md:translate-x-0 fixed md:relative h-[100dvh] md:h-full overflow-y-auto z-40 top-0 left-0"
+        :class="showMobileMenu ? 'translate-x-0' : '-translate-x-full'"
       >
         <div class="p-6">
-          <div class="flex items-center gap-3 mb-2">
-            <img
-              src="/pwa-192x192.png"
-              alt="Logo"
-              class="w-12 h-12 rounded-lg"
-            />
-            <div>
-              <h1
-                class="text-xl font-bold text-indigo-600 dark:text-indigo-400"
-              >
-                Khóa học PWA
-              </h1>
-              <p class="text-xs text-gray-500 dark:text-gray-400">
-                Vue 3 + Vite + PWA
-              </p>
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <img
+                src="/pwa-192x192.png"
+                alt="Logo"
+                class="w-12 h-12 rounded-lg"
+              />
+              <div>
+                <h1
+                  class="text-xl font-bold text-indigo-600 dark:text-indigo-400"
+                >
+                  Khóa học PWA
+                </h1>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  Vue 3 + Vite + PWA
+                </p>
+              </div>
             </div>
+            <!-- Close Button -->
+            <button
+              @click="showMobileMenu = false"
+              class="md:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Close menu"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -151,11 +175,19 @@
 import ReloadPrompt from "@/components/ReloadPrompt.vue";
 import TableOfContents from "@/components/TableOfContents.vue";
 import { useTheme } from "@/composables/useTheme";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const routes = router.getRoutes().filter((r) => r.meta.title);
 const { theme } = useTheme();
 const showMobileMenu = ref(false);
+
+watch(showMobileMenu, (val) => {
+  if (val) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
+});
 </script>
