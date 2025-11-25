@@ -7,7 +7,7 @@
       class="md:hidden flex-shrink-0 flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 z-30"
     >
       <div class="flex items-center gap-2">
-        <img src="/pwa-192x192.png" alt="Logo" class="w-8 h-8 rounded-lg" />
+        <img src="/logo.svg" alt="Logo" class="w-8 h-8 rounded-lg" />
         <div>
           <h1 class="font-bold text-indigo-600 dark:text-indigo-400 text-sm">
             Khóa học PWA
@@ -52,11 +52,7 @@
         <div class="p-6">
           <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-3">
-              <img
-                src="/pwa-192x192.png"
-                alt="Logo"
-                class="w-12 h-12 rounded-lg"
-              />
+              <img src="/logo.svg" alt="Logo" class="w-12 h-12 rounded-lg" />
               <div>
                 <h1
                   class="text-xl font-bold text-indigo-600 dark:text-indigo-400"
