@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CodeBlock: typeof import('./components/CodeBlock.vue')['default']
+    InstallPrompt: typeof import('./components/InstallPrompt.vue')['default']
     ReloadPrompt: typeof import('./components/ReloadPrompt.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

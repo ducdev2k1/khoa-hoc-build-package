@@ -1,6 +1,6 @@
 import { ref, watch, onMounted } from 'vue'
 
-type Theme = 'light' | 'dark' | 'auto'
+export type Theme = 'light' | 'dark' | 'auto'
 
 export function useTheme() {
   const theme = ref<Theme>('auto')
