@@ -124,3 +124,7 @@ dist
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+
+
+#PWA
+dev-dist
