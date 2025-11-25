@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/pwa-192x192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PWA Course - Vue 3</title>
     <meta
       name="description"
       content="Khóa học Progressive Web App với Vue 3 và Vite. Học cách xây dựng PWA với service workers, offline strategies, và deployment."
@@ -51,6 +52,18 @@
 
     <link rel="canonical" href="https://pwa-course-six.vercel.app" />
 
+    <!-- Theme Color Auto -->
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#4f46e5"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#1f2937"
+    />
+
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
       {
@@ -73,16 +86,6 @@
         }
       }
     </script>
-
-    <!-- Course Configuration -->
-    <link
-      rel="preload"
-      href="/course-config.json"
-      as="fetch"
-      crossorigin="anonymous"
-    />
-
-    <title>PWA Course - Vue 3</title>
   </head>
   <body>
     <div id="app"></div>
