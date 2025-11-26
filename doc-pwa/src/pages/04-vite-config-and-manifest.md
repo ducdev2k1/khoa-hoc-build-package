@@ -256,6 +256,8 @@ pwa-asset-generator logo.svg ./public/icons
 
 ### Workbox Options
 
+Workbox là thư viện của Google giúp quản lý Service Worker và caching strategies. Dưới đây là các options quan trọng:
+
 ```typescript
 VitePWA({
   workbox: {
@@ -269,6 +271,253 @@ VitePWA({
           expiration: {
             maxEntries: 10,
             maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
+    ],
+  },
+});
+```
+
+#### globPatterns
+
+```typescript
+globPatterns: ["**/*.{js,css,html,ico,png,svg}"];
+```
+
+Định nghĩa pattern để **precache** (cache trước) các files khi Service Worker được install.
+
+- `**/*` - Match tất cả files trong mọi thư mục
+- `*.{js,css,html}` - Match files với extensions cụ thể
+- Files match pattern này sẽ được cache ngay khi user lần đầu visit app
+
+**Ví dụ**:
+
+```typescript
+globPatterns: [
+  "**/*.{js,css,html}", // Tất cả code files
+  "assets/**/*.{png,jpg,svg}", // Images trong assets
+  "fonts/**/*.{woff,woff2}", // Font files
+];
+```
+
+#### runtimeCaching
+
+Cấu hình caching cho resources được fetch **trong lúc runtime** (không phải precache).
+
+Mỗi rule bao gồm:
+
+##### urlPattern
+
+```typescript
+urlPattern: /^https:\/\/api\.example\.com\/.*/i;
+```
+
+Regex hoặc string để match URLs cần cache.
+
+**Ví dụ**:
+
+```typescript
+// Match API calls
+urlPattern: /^https:\/\/api\.myapp\.com\/.*/i;
+
+// Match Google Fonts
+urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i;
+
+// Match images từ CDN
+urlPattern: /^https:\/\/cdn\.example\.com\/images\/.*/i;
+```
+
+##### handler
+
+Caching strategy để sử dụng. Có 5 strategies chính:
+
+**1. CacheFirst** (Cache Falling Back to Network)
+
+```typescript
+handler: "CacheFirst";
+```
+
+- Ưu tiên cache trước
+- Nếu không có trong cache → fetch từ network
+- **Use case**: Static assets (fonts, images, CSS, JS)
+
+**2. NetworkFirst** (Network Falling Back to Cache)
+
+```typescript
+handler: "NetworkFirst";
+```
+
+- Ưu tiên network trước
+- Nếu network fail → dùng cache
+- **Use case**: API calls, dynamic content
+
+**3. NetworkOnly**
+
+```typescript
+handler: "NetworkOnly";
+```
+
+- Chỉ dùng network, không cache
+- **Use case**: Real-time data, analytics
+
+**4. CacheOnly**
+
+```typescript
+handler: "CacheOnly";
+```
+
+- Chỉ dùng cache, không fetch network
+- **Use case**: Precached resources
+
+**5. StaleWhileRevalidate**
+
+```typescript
+handler: "StaleWhileRevalidate";
+```
+
+- Trả về cache ngay lập tức (nếu có)
+- Đồng thời fetch từ network để update cache
+- **Use case**: Cần response nhanh nhưng vẫn muốn data mới
+
+##### options
+
+Các options bổ sung cho caching strategy:
+
+**cacheName**
+
+```typescript
+cacheName: "google-fonts-cache";
+```
+
+Tên của cache storage. Giúp organize và debug dễ dàng.
+
+**Ví dụ**:
+
+```typescript
+cacheName: "api-cache-v1";
+cacheName: "images-cache";
+cacheName: "static-resources";
+```
+
+**expiration**
+
+Cấu hình khi nào cache sẽ expire:
+
+```typescript
+expiration: {
+  maxEntries: 10,        // Tối đa 10 entries trong cache
+  maxAgeSeconds: 60 * 60 * 24 * 365  // Cache tối đa 1 năm
+}
+```
+
+- `maxEntries`: Số lượng entries tối đa. Khi vượt quá, entries cũ nhất sẽ bị xóa (LRU - Least Recently Used)
+- `maxAgeSeconds`: Thời gian tối đa (giây) một entry được giữ trong cache
+
+**Ví dụ**:
+
+```typescript
+// API cache - 50 entries, 1 ngày
+expiration: {
+  maxEntries: 50,
+  maxAgeSeconds: 60 * 60 * 24
+}
+
+// Image cache - 100 entries, 30 ngày
+expiration: {
+  maxEntries: 100,
+  maxAgeSeconds: 60 * 60 * 24 * 30
+}
+```
+
+**cacheableResponse**
+
+Định nghĩa response nào được phép cache:
+
+```typescript
+cacheableResponse: {
+  statuses: [0, 200];
+}
+```
+
+- `statuses`: Array của HTTP status codes được phép cache
+- `0`: Opaque responses (cross-origin requests không có CORS)
+- `200`: Success responses
+
+**Ví dụ**:
+
+```typescript
+// Cache cả 200 và 404 (để tránh re-fetch 404s)
+cacheableResponse: {
+  statuses: [0, 200, 404];
+}
+
+// Chỉ cache success responses
+cacheableResponse: {
+  statuses: [200];
+}
+```
+
+#### Ví dụ Runtime Caching hoàn chỉnh
+
+```typescript
+VitePWA({
+  workbox: {
+    runtimeCaching: [
+      // Google Fonts
+      {
+        urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "google-fonts-stylesheets",
+          expiration: {
+            maxEntries: 10,
+            maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+          },
+        },
+      },
+      // Font files
+      {
+        urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "google-fonts-webfonts",
+          expiration: {
+            maxEntries: 30,
+            maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
+      // API calls
+      {
+        urlPattern: /^https:\/\/api\.myapp\.com\/.*/i,
+        handler: "NetworkFirst",
+        options: {
+          cacheName: "api-cache",
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 60 * 60, // 1 hour
+          },
+          cacheableResponse: {
+            statuses: [200],
+          },
+        },
+      },
+      // Images từ CDN
+      {
+        urlPattern: /^https:\/\/cdn\.myapp\.com\/images\/.*/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "cdn-images",
+          expiration: {
+            maxEntries: 100,
+            maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
           },
           cacheableResponse: {
             statuses: [0, 200],
