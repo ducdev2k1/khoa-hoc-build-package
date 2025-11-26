@@ -45,13 +45,13 @@
         <li v-for="route in routes" :key="route.path">
           <router-link
             :to="route.path"
+            @click="handleClose"
             class="block px-4 py-2 rounded-md text-sm font-medium transition-colors"
             :class="[
               $route.path === route.path
                 ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300'
                 : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white',
             ]"
-            @click="$emit('close')"
           >
             {{ route.meta.title }}
           </router-link>
@@ -68,7 +68,7 @@
           <button
             v-for="mode in ['light', 'dark', 'auto']"
             :key="mode"
-            @click="$emit('update:theme', mode)"
+            @click="emits('update:theme', mode)"
             class="px-3 py-1 text-xs rounded-md border transition-colors"
             :class="[
               theme === mode
@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteRecordNormalized } from "vue-router";
+import { type RouteRecordNormalized } from "vue-router";
 
 defineProps<{
   isOpen: boolean;
@@ -93,8 +93,19 @@ defineProps<{
   theme: string;
 }>();
 
-defineEmits<{
+const emits = defineEmits<{
   (e: "close"): void;
   (e: "update:theme", value: string): void;
 }>();
+
+const handleClose = () => {
+  const articleContent = document.getElementById("article-content");
+  if (articleContent) {
+    articleContent.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+  emits("close");
+};
 </script>
